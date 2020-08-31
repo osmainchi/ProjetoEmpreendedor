@@ -61,6 +61,11 @@ public class MenuTransportes extends javax.swing.JFrame {
 
         jButtonTransportesFuturos.setFont(new java.awt.Font("Calibri", 1, 24)); // NOI18N
         jButtonTransportesFuturos.setText("Transportes Futuros");
+        jButtonTransportesFuturos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonTransportesFuturosActionPerformed(evt);
+            }
+        });
 
         jButtonBuscarTransporte.setFont(new java.awt.Font("Calibri", 1, 24)); // NOI18N
         jButtonBuscarTransporte.setText("Buscar Transporte");
@@ -142,6 +147,12 @@ public class MenuTransportes extends javax.swing.JFrame {
                     buscar.setVisible(true);
                     dispose();    
     }//GEN-LAST:event_jButtonBuscarTransporteActionPerformed
+
+    private void jButtonTransportesFuturosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonTransportesFuturosActionPerformed
+                    MenuTransportesFuturos futuro = new MenuTransportesFuturos();
+                    futuro.setVisible(true);
+                    dispose();   
+    }//GEN-LAST:event_jButtonTransportesFuturosActionPerformed
 
     /**
      * @param args the command line arguments

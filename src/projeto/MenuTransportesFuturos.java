@@ -141,8 +141,8 @@ public class MenuTransportesFuturos extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonVoltarActionPerformed
-                    MenuTransportesAndamento andamento = new MenuTransportesAndamento();
-                    andamento.setVisible(true);
+                    MenuTransportes transportes = new MenuTransportes();
+                    transportes.setVisible(true);
                     dispose();                
     }//GEN-LAST:event_jButtonVoltarActionPerformed
 
