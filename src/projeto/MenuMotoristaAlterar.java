@@ -42,10 +42,10 @@ public class MenuMotoristaAlterar extends javax.swing.JFrame {
         jLabelCarteira = new javax.swing.JLabel();
         jTextFieldNome = new javax.swing.JTextField();
         jTextFieldDataNasc = new javax.swing.JTextField();
-        jTextFieldCPF = new javax.swing.JTextField();
         jTextFieldCidade = new javax.swing.JTextField();
         jTextFieldEndereco = new javax.swing.JTextField();
         jTextFieldTipoCarteira = new javax.swing.JTextField();
+        jFormattedTextFieldCPF = new javax.swing.JFormattedTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Sistema Gestão de Rotas");
@@ -88,6 +88,12 @@ public class MenuMotoristaAlterar extends javax.swing.JFrame {
         jLabelCarteira.setFont(new java.awt.Font("Calibri", 1, 14)); // NOI18N
         jLabelCarteira.setText("Tipo Carteira:");
 
+        try {
+            jFormattedTextFieldCPF.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("###.###.###-##")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -109,8 +115,8 @@ public class MenuMotoristaAlterar extends javax.swing.JFrame {
                         .addComponent(jTextFieldCidade))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabelCPF)
-                        .addGap(18, 18, 18)
-                        .addComponent(jTextFieldCPF))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jFormattedTextFieldCPF))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabelDataNasc)
                         .addGap(18, 18, 18)
@@ -135,7 +141,7 @@ public class MenuMotoristaAlterar extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelCPF)
-                    .addComponent(jTextFieldCPF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jFormattedTextFieldCPF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelCidade)
@@ -272,6 +278,7 @@ public class MenuMotoristaAlterar extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonCadMotorista;
     private javax.swing.JButton jButtonVoltar;
+    private javax.swing.JFormattedTextField jFormattedTextFieldCPF;
     private javax.swing.JLabel jLabelCPF;
     private javax.swing.JLabel jLabelCarteira;
     private javax.swing.JLabel jLabelCidade;
@@ -281,7 +288,6 @@ public class MenuMotoristaAlterar extends javax.swing.JFrame {
     private javax.swing.JLabel jLabelNome;
     private javax.swing.JLabel jLabelTitulo;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JTextField jTextFieldCPF;
     private javax.swing.JTextField jTextFieldCidade;
     private javax.swing.JTextField jTextFieldDataNasc;
     private javax.swing.JTextField jTextFieldEndereco;

@@ -5,6 +5,7 @@
  */
 package projeto;
 
+import java.awt.event.KeyEvent;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -55,6 +56,17 @@ public class TelaLogin extends javax.swing.JFrame {
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel3.setText("Senha:");
+
+        jPasswordFieldSenha.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jPasswordFieldSenhaActionPerformed(evt);
+            }
+        });
+        jPasswordFieldSenha.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jPasswordFieldSenhaKeyPressed(evt);
+            }
+        });
 
         jButton1.setText("Entrar");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -121,35 +133,23 @@ public class TelaLogin extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection conexao;
-            conexao = DriverManager.getConnection("jdbc:mysql://localhost:3306/gestaofrotas?useTimezone=true&serverTimezone=UTC","javaapp","projeto");
-            Statement st = conexao.createStatement();
-            st.executeQuery("Select * from usuarios where usuarios ='"+jTextFieldUsuario.getText()+"' and senha ='"+jPasswordFieldSenha.getText() +"'");
-            ResultSet rs = st.getResultSet();
-            if(rs.next()){
-                try{
-                    MenuPrincipal menu = new MenuPrincipal();
-                    menu.setVisible(true);
-                    dispose();
-                    //JOptionPane.showMessageDialog(null,"Senha Correta");
-                }catch (Exception erro){}
-            }else
-            {
-                JOptionPane.showMessageDialog(null,"Senha Errada");
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(TelaLogin.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(TelaLogin.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        login();
        
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jPasswordFieldSenhaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jPasswordFieldSenhaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jPasswordFieldSenhaActionPerformed
+
+    private void jPasswordFieldSenhaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jPasswordFieldSenhaKeyPressed
+            if(evt.getKeyCode()==KeyEvent.VK_ENTER){
+                login();                
+            }
+    }//GEN-LAST:event_jPasswordFieldSenhaKeyPressed
 
     /**
      * @param args the command line arguments
@@ -186,6 +186,31 @@ public class TelaLogin extends javax.swing.JFrame {
         });
     }
 
+    public void login(){
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection conexao;
+            conexao = DriverManager.getConnection("jdbc:mysql://localhost:3306/gestaofrotas?useTimezone=true&serverTimezone=UTC","javaapp","projeto");
+            Statement st = conexao.createStatement();
+            st.executeQuery("Select * from usuarios where usuarios ='"+jTextFieldUsuario.getText()+"' and senha ='"+jPasswordFieldSenha.getText() +"'");
+            ResultSet rs = st.getResultSet();
+            if(rs.next()){
+                try{
+                    MenuPrincipal menu = new MenuPrincipal();
+                    menu.setVisible(true);
+                    dispose();
+                    //JOptionPane.showMessageDialog(null,"Senha Correta");
+                }catch (Exception erro){}
+            }else
+            {
+                JOptionPane.showMessageDialog(null,"Senha Errada");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(TelaLogin.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(TelaLogin.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;

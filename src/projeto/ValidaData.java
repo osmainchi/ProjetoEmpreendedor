@@ -1,0 +1,37 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package projeto;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+/**
+ *
+ * @author user
+ */
+public class ValidaData {
+    
+    public static boolean isValidDate(String inDate) throws ParseException {
+        Date today = new Date();        
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        dateFormat.setLenient(false);
+        try {
+            dateFormat.parse(inDate.trim());
+            } catch (ParseException pe) {
+            return false;
+        }
+        if(dateFormat.parse(inDate).after(today)){
+            return false;
+        }else
+        if (inDate.equals(today)){
+            return false;
+        }else
+        
+        return true;
+    }
+    
+}
