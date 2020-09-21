@@ -20,8 +20,8 @@ import javax.swing.JPanel;
 
 public class CadastrarVeiculo {
     
-    public static void CriarCadastroVeiculo(String placa, String fabricante, String modelo, String motorista, String peso, String cubagem) throws ClassNotFoundException{
-        String branco = null;
+    public static void CriarCadastroVeiculo(String placa, String fabricante, String modelo, String motorista, String peso, String cubagem){
+        String branco = "";
         String IDMotorista = null;
         String regexStr = "[A-Z]{3}-[0-9]{4}";
         String regexStr2 = "[A-Z]{3}-[0-9]{1}[A-Z]{1}[0-9]{2}";
@@ -40,15 +40,19 @@ public class CadastrarVeiculo {
         if(peso == null){
             branco = branco+"Peso \n";
         }
-        if(branco != null){
+        if(cubagem == null){
+            branco = branco+"Cubagem \n";
+        }
+        if(branco != ""){
             final JPanel panel = new JPanel();
             JOptionPane.showMessageDialog(panel, "Completar os campos em branco abaixo: \n"+branco, "Campos em Branco!",
             JOptionPane.WARNING_MESSAGE);
+            branco = "";
         }else{
             if(placa.matches(regexStr)||placa.matches(regexStr2)){
-                if(peso.contains("[a-zA-Z]+") == false){
+                if(peso.matches("[a-zA-Z]+") == false){
                     float Peso = Float.parseFloat(peso);
-                    if(cubagem.contains("[a-zA-Z]+") == false){
+                    if(cubagem.matches("[a-zA-Z]+") == false){
                         float Cubagem = Float.parseFloat(cubagem);
                         try {
                                 Class.forName("com.mysql.cj.jdbc.Driver");
@@ -68,10 +72,10 @@ public class CadastrarVeiculo {
                                         sta.executeQuery("Select ID from motorista where CPF ='"+motorista+"'");
                                         ResultSet rss = sta.getResultSet();
                                         if(rss.next()){
-                                            try{
+                                           try{
                                                 IDMotorista = rss.getString(1);
                                                 PreparedStatement cadastrar =
-                                                conexao.prepareStatement("INSERT INTO motorista(ID,ID_Motorista,Fabricante,Modelo,Placa,Peso,Cubagem) VALUES (?,?,?,?,?,?,?)");
+                                                conexao.prepareStatement("INSERT INTO veiculo(ID,ID_Motorista,Fabricante,Modelo,Placa,Peso,Cubagem) VALUES (?,?,?,?,?,?,?)");
                                                 cadastrar.setString(1, null);
                                                 cadastrar.setString(2, IDMotorista);
                                                 cadastrar.setString(3, fabricante);
@@ -80,7 +84,7 @@ public class CadastrarVeiculo {
                                                 cadastrar.setFloat(6, Peso);
                                                 cadastrar.setFloat(7, Cubagem);
                                                 cadastrar.executeUpdate();
-                                                    JOptionPane.showMessageDialog(null,"Contato cadastrado com sucesso",
+                                                    JOptionPane.showMessageDialog(null,"Veiculo cadastrado com sucesso",
                                                                     "Cadastrado",JOptionPane.INFORMATION_MESSAGE);
 
                                                 }catch (Exception erro){
@@ -90,12 +94,14 @@ public class CadastrarVeiculo {
                                             
                                         }else {
                                                 final JPanel panel = new JPanel();
-                                                JOptionPane.showMessageDialog(panel, "Motorista não localizado!/nValidar cadastro do motorista", "Erro",
+                                                JOptionPane.showMessageDialog(panel, "Motorista não localizado!\nValidar cadastro do motorista", "Erro",
                                                 JOptionPane.WARNING_MESSAGE);
                                                 }
                                             }
                         }catch (SQLException ex) {
-                                    Logger.getLogger(TelaLogin.class.getName()).log(Level.SEVERE, null, ex);
+                                    Logger.getLogger(CadastrarVeiculo.class.getName()).log(Level.SEVERE, null, ex);
+                        } catch (ClassNotFoundException ex) {
+                            Logger.getLogger(CadastrarVeiculo.class.getName()).log(Level.SEVERE, null, ex);
                         }
                                       
                     }else{

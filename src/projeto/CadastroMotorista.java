@@ -7,7 +7,6 @@ package projeto;
 
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -25,12 +24,11 @@ import javax.swing.JPanel;
  */
 public class CadastroMotorista {
     
-    public static void CriaCadastroMotorista(String Nome ,String Cpf, String DataNasc, String Cidade, String Endereco, String TipoCarteira, String NumeroCelular) throws ParseException{
-        String branco = null;
+    public static void CriaCadastroMotorista(String Nome ,String Cpf, String DataNasc, String Cidade, String Endereco, String TipoCarteira, String NumeroCelular){
+        String branco = "";
         NumeroCelular = NumeroCelular.replaceAll("[()-]","");
-        String regexStr = "^[0-9]{11}$";
-        Cpf = Cpf.replaceAll("[.-]", "");      
-        DataNasc = DataNasc.replaceAll("[/]", "-");
+        String regexStr = "^[0-9]{11}$";            
+        
         if(Nome == null){
             branco = "Nome\n";
 	}
@@ -49,28 +47,32 @@ public class CadastroMotorista {
         if(TipoCarteira == null){
             branco = branco+"Tipo de Carteira \n";            
         }
-        if(branco != null){
+        if(branco != ""){
             final JPanel panel = new JPanel();
             JOptionPane.showMessageDialog(panel, "Completar os campos em branco abaixo: \n"+branco, "Campos em Branco!",
             JOptionPane.WARNING_MESSAGE);
+            branco = "";
         }else{
+            Cpf = Cpf.replaceAll("[.-]", ""); 
+            DataNasc = DataNasc.replaceAll("[/]", "-");
             if (TipoCarteira.matches("C|D|E")){   
-		if (ValidaData.isValidDate(DataNasc) == true){
-                    if (ValidaCPF.isCPF(Cpf) == true){
-			if(NumeroCelular.matches(regexStr)){
-                            try {
-                                Class.forName("com.mysql.cj.jdbc.Driver");
-                                Connection conexao;
-                                conexao = DriverManager.getConnection("jdbc:mysql://localhost:3306/gestaofrotas?useTimezone=true&serverTimezone=UTC","javaapp","projeto");
-                                Statement st = conexao.createStatement();
-                                st.executeQuery("Select * from motorista where CPF ='"+Cpf+"'");
-                                ResultSet rs = st.getResultSet();
+                try {
+                    if (ValidaData.isValidDate(DataNasc) == true){
+                        if (ValidaCPF.isCPF(Cpf) == true){
+                            if(NumeroCelular.matches(regexStr)){
+                                try {
+                                    Class.forName("com.mysql.cj.jdbc.Driver");
+                                    Connection conexao;
+                                    conexao = DriverManager.getConnection("jdbc:mysql://localhost:3306/gestaofrotas?useTimezone=true&serverTimezone=UTC","javaapp","projeto");
+                                    Statement st = conexao.createStatement();
+                                    st.executeQuery("Select * from motorista where CPF ='"+Cpf+"'");
+                                    ResultSet rs = st.getResultSet();
                                     if(rs.next()){
                                         try{
                                             final JPanel panel = new JPanel();
                                             JOptionPane.showMessageDialog(panel, "CPF já cadastrado", "Cadastro em Duplicidade!",
-                                            JOptionPane.WARNING_MESSAGE);
-                                            }catch (Exception erro){}
+                                                    JOptionPane.WARNING_MESSAGE);
+                                        }catch (Exception erro){}
                                     }else
                                     {
                                         Statement sta = conexao.createStatement();
@@ -80,12 +82,12 @@ public class CadastroMotorista {
                                             try{
                                                 final JPanel panel = new JPanel();
                                                 JOptionPane.showMessageDialog(panel, "Numero de telefone já cadastrado", "Cadastro em Duplicidade!",
-                                                JOptionPane.WARNING_MESSAGE);
-                                                }catch (Exception erro){}
+                                                        JOptionPane.WARNING_MESSAGE);
+                                            }catch (Exception erro){}
                                         }else{
                                             try{
                                                 PreparedStatement cadastrar =
-                                                conexao.prepareStatement("INSERT INTO motorista(ID,Nome,DataNasc,CPF,Cidade,Endereco,TipoCarteira,NumeroCelular) VALUES (?,?,?,?,?,?,?,?)");
+                                                        conexao.prepareStatement("INSERT INTO motorista(ID,Nome,DataNasc,CPF,Cidade,Endereco,TipoCarteira,NumeroCelular) VALUES (?,?,?,?,?,?,?,?)");
                                                 cadastrar.setString(1, null);
                                                 cadastrar.setString(2, Nome);
                                                 cadastrar.setString(3, DataNasc);
@@ -95,35 +97,38 @@ public class CadastroMotorista {
                                                 cadastrar.setString(7, TipoCarteira);
                                                 cadastrar.setString(8, NumeroCelular);
                                                 cadastrar.executeUpdate();
-                                                JOptionPane.showMessageDialog(null,"Contato cadastrado com sucesso",
-                                                                "Cadastrado",JOptionPane.INFORMATION_MESSAGE);
-
+                                                JOptionPane.showMessageDialog(null,"Motorista cadastrado com sucesso",
+                                                        "Cadastrado",JOptionPane.INFORMATION_MESSAGE);
+                                                
                                             }catch (Exception erro){
-                                            JOptionPane.showMessageDialog(null,"Problema no cadastro",
-                                                                "Cadastrado",JOptionPane.INFORMATION_MESSAGE);}
-                                        } 
-
+                                                JOptionPane.showMessageDialog(null,"Problema no cadastro",
+                                                        "Cadastrado",JOptionPane.INFORMATION_MESSAGE);}
+                                        }
+                                        
                                     }
                                 } catch (SQLException ex) {
-                                    Logger.getLogger(TelaLogin.class.getName()).log(Level.SEVERE, null, ex);
+                                    Logger.getLogger(CadastroMotorista.class.getName()).log(Level.SEVERE, null, ex);
                                 } catch (ClassNotFoundException ex) {
-                                    Logger.getLogger(TelaLogin.class.getName()).log(Level.SEVERE, null, ex);
+                                    Logger.getLogger(CadastroMotorista.class.getName()).log(Level.SEVERE, null, ex);
                                 }
+                            }else{
+                                final JPanel panel = new JPanel();
+                                JOptionPane.showMessageDialog(panel, "Numero de Celular já cadastrado", "Cadastro em Duplicidade!",
+                                        JOptionPane.WARNING_MESSAGE);
+                            }
                         }else{
-                        final JPanel panel = new JPanel();
-                        JOptionPane.showMessageDialog(panel, "Numero de Celular já cadastrado", "Cadastro em Duplicidade!",
-                        JOptionPane.WARNING_MESSAGE);
+                            final JPanel panel = new JPanel();
+                            JOptionPane.showMessageDialog(panel, "CPF Incorreto", "ERRO!",
+                                    JOptionPane.WARNING_MESSAGE);
                         }
                     }else{
-                    final JPanel panel = new JPanel();
-                    JOptionPane.showMessageDialog(panel, "CPF Incorreto", "ERRO!",
-                    JOptionPane.WARNING_MESSAGE);
+                        final JPanel panel = new JPanel();
+                        JOptionPane.showMessageDialog(panel, "Data Incorreta, favor revisar", "ERRO!",
+                                JOptionPane.WARNING_MESSAGE);
                     }
-                }else{
-                    final JPanel panel = new JPanel();
-                    JOptionPane.showMessageDialog(panel, "Data Incorreta, favor revisar", "ERRO!",
-                    JOptionPane.WARNING_MESSAGE);
-                        }
+                } catch (ParseException ex) {
+                    Logger.getLogger(CadastroMotorista.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }else{
 		final JPanel panel = new JPanel();
                 JOptionPane.showMessageDialog(panel, "Tipo de Carteira Inválido", "ERRO!",

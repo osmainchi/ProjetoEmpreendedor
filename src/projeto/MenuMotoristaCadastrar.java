@@ -250,8 +250,10 @@ public class MenuMotoristaCadastrar extends javax.swing.JFrame {
     }//GEN-LAST:event_jFormattedTextFieldCPFActionPerformed
 
     private void jButtonCadMotoristaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCadMotoristaActionPerformed
-        String nome,datanasc,cidade,endereco,tipocarteira,telefone;
-        String cpf = jFormattedTextFieldCPF.getText();
+        String nome,datanasc,cidade,endereco,tipocarteira,telefone,cpf;
+        if(jFormattedTextFieldCPF.getText().equals("   .   .   -  ")){
+            cpf=null;
+        }else cpf = jFormattedTextFieldCPF.getText();
         if(jTextFieldNome.getText().equals("")){
             nome = null;
         }else nome = jTextFieldNome.getText();
@@ -271,13 +273,9 @@ public class MenuMotoristaCadastrar extends javax.swing.JFrame {
             telefone = null;
         }else telefone = jFormattedTextFieldNumero.getText();
 
-        try {
-            CadastroMotorista.CriaCadastroMotorista(nome, cpf, datanasc, cidade, endereco, tipocarteira,telefone);
-            
-            //CadastrarMotorista(jTextFieldNome.getText(),jFormattedTextFieldCPF.getText(),jTextFieldDataNasc.getText(),jTextFieldCidade.getText(),jTextFieldEndereco.getText(),jTextFieldTipoCarteira.getText());
-        } catch (ParseException ex) {
-            Logger.getLogger(MenuMotoristaCadastrar.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        CadastroMotorista.CriaCadastroMotorista(nome, cpf, datanasc, cidade, endereco, tipocarteira,telefone);
+        
+        
     }//GEN-LAST:event_jButtonCadMotoristaActionPerformed
 
     /**

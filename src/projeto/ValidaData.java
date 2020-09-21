@@ -16,6 +16,8 @@ import java.util.Date;
 public class ValidaData {
     
     public static boolean isValidDate(String inDate) throws ParseException {
+        String regexStr = "[0-9]{4}-[0-9]{2}-[0-9]{2}";
+        if(inDate.matches(regexStr)){
         Date today = new Date();        
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         dateFormat.setLenient(false);
@@ -32,6 +34,8 @@ public class ValidaData {
         }else
         
         return true;
+        }
+        else return false;
     }
     
 }

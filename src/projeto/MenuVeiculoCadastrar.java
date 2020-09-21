@@ -5,6 +5,8 @@
  */
 package projeto;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -206,8 +208,8 @@ public class MenuVeiculoCadastrar extends javax.swing.JFrame {
                         .addComponent(jLabelTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jLabelLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(28, 28, 28)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 261, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonVoltar)
                     .addComponent(jButtonCadVeiculo))
@@ -231,19 +233,20 @@ public class MenuVeiculoCadastrar extends javax.swing.JFrame {
         }else Placa =jTextFieldPlaca.getText();
         if(jTextFieldFabricante.getText().equals("")){
             Fabricante = null;
-        }else Placa =jTextFieldFabricante.getText();
+        }else Fabricante =jTextFieldFabricante.getText();
         if(jTextFieldModelo.getText().equals("")){
             Modelo = null;
-        }else Placa =jTextFieldModelo.getText();
+        }else Modelo =jTextFieldModelo.getText();
         if(jTextFieldMotorista.getText().equals("")){
             Motorista = null;
-        }else Placa =jTextFieldMotorista.getText();
+        }else Motorista =jTextFieldMotorista.getText();
         if(jTextFieldPeso.getText().equals("")){
             Peso = null;
-        }else Placa =jTextFieldPeso.getText();
+        }else Peso =jTextFieldPeso.getText();
         if(jTextFieldCubagem.getText().equals("")){
             Cubagem = null;
-        }else Placa =jTextFieldCubagem.getText();
+        }else Cubagem =jTextFieldCubagem.getText();
+        CadastrarVeiculo.CriarCadastroVeiculo(Placa, Fabricante, Modelo, Motorista, Peso, Cubagem);
     }//GEN-LAST:event_jButtonCadVeiculoActionPerformed
 
     /**
