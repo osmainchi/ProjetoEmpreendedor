@@ -38,4 +38,27 @@ public class ValidaData {
         else return false;
     }
     
+    public static boolean isValidDateEntrega(String inDate) throws ParseException {
+        String regexStr2 = "[0-9]{4}-[0-9]{2}-[0-9]{2}";
+        if(inDate.matches(regexStr2)){
+        Date today = new Date();        
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        dateFormat.setLenient(false);
+        try {
+            dateFormat.parse(inDate.trim());
+            } catch (ParseException pe) {
+            return false;
+        }
+        if(dateFormat.parse(inDate).before(today)){
+            return false;
+        }else
+        if (inDate.equals(today)){
+            return false;
+        }else
+        
+        return true;
+        }
+        else return false;
+    }
+    
 }

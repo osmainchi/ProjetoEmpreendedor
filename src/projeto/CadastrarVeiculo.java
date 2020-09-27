@@ -54,6 +54,7 @@ public class CadastrarVeiculo {
                     float Peso = Float.parseFloat(peso);
                     if(cubagem.matches("[a-zA-Z]+") == false){
                         float Cubagem = Float.parseFloat(cubagem);
+                        if (ValidaCPF.isCPF(motorista) == true){
                         try {
                                 Class.forName("com.mysql.cj.jdbc.Driver");
                                 Connection conexao;
@@ -89,7 +90,7 @@ public class CadastrarVeiculo {
 
                                                 }catch (Exception erro){
                                                 JOptionPane.showMessageDialog(null,"Problema no cadastro",
-                                                                    "Cadastrado",JOptionPane.INFORMATION_MESSAGE);
+                                                                    "Cadastrado",JOptionPane.WARNING_MESSAGE);
                                                         }
                                             
                                         }else {
@@ -103,7 +104,11 @@ public class CadastrarVeiculo {
                         } catch (ClassNotFoundException ex) {
                             Logger.getLogger(CadastrarVeiculo.class.getName()).log(Level.SEVERE, null, ex);
                         }
-                                      
+                        }else{
+                        final JPanel panel = new JPanel();
+                        JOptionPane.showMessageDialog(panel, "CPF Inválido!", "ERRO!",
+                        JOptionPane.WARNING_MESSAGE);
+                        }
                     }else{
                         final JPanel panel = new JPanel();
                         JOptionPane.showMessageDialog(panel, "Valor de Cubagem Incorreto!", "ERRO!",
