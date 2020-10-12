@@ -12,18 +12,21 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import javax.swing.JOptionPane;
+import org.json.simple.parser.ParseException;
 
 
 public class CriarDemanda {
     
-    public static void CriarDemanda() throws ClassNotFoundException, SQLException{
+    public static void CriarDemanda() throws ClassNotFoundException, SQLException, ParseException{
         String motorista = "93400783064";
         String IDPedido = "4";
         String IDMotorista = null;
         String Placa = null;
         String NOMEMotorista = null;
-        String NumPedido = null, DataEntrega = null, Endereco = null, Latitude, Longitude;
+        String NumPedido = null, DataEntrega = null, Endereco = null ;
         Float PesoTotal = null, CubagemTotal = null;
+        double Latitude = 0, Longitude = 0;
+               
         Class.forName("com.mysql.cj.jdbc.Driver");
         Connection conexao;
         conexao = DriverManager.getConnection("jdbc:mysql://localhost:3306/gestaofrotas?useTimezone=true&serverTimezone=UTC","javaapp","projeto");
@@ -49,11 +52,13 @@ public class CriarDemanda {
         Endereco = rsss.getString(3);
         PesoTotal = rsss.getFloat(4);
         CubagemTotal = rsss.getFloat(5);
+        Latitude=(double) BuscarCoordenadas.Latitude(Endereco);
+        Longitude=(double) BuscarCoordenadas.Longitude(Endereco);
         }
         
         try{
             PreparedStatement cadastrar =
-            conexao.prepareStatement("INSERT INTO demanda(ID,NomeMotorista,NomeVeiculo,NumeroPedido,DataEntrega,EnderecoDestino,PesoTotal,CubagemTotal) VALUES (?,?,?,?,?,?,?,?)");
+            conexao.prepareStatement("INSERT INTO demanda(ID,NomeMotorista,NomeVeiculo,NumeroPedido,DataEntrega,EnderecoDestino,PesoTotal,CubagemTotal,LongitudeEntrega,LatitudeEntrega) VALUES (?,?,?,?,?,?,?,?,?,?)");
             cadastrar.setString(1, null);
             cadastrar.setString(2, NOMEMotorista);
             cadastrar.setString(3, Placa);
@@ -62,7 +67,9 @@ public class CriarDemanda {
             cadastrar.setString(6, Endereco);
             cadastrar.setFloat(7, PesoTotal);
             cadastrar.setFloat(8, CubagemTotal);
-            cadastrar.executeUpdate();
+            cadastrar.setDouble(9, Longitude);
+            cadastrar.setDouble(10, Latitude);
+            cadastrar.executeUpdate();            
             JOptionPane.showMessageDialog(null,"Demanda cadastrada com sucesso",
             "Cadastrado",JOptionPane.INFORMATION_MESSAGE);
         }catch (Exception erro){
