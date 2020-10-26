@@ -5,7 +5,13 @@
  */
 package projeto;
 
+import java.awt.event.KeyEvent;
+import java.text.ParseException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import projeto.ValidaCPF;
 
 /**
  *
@@ -32,7 +38,7 @@ public class MenuMotoristaAlterar extends javax.swing.JFrame {
         jLabelLogo = new javax.swing.JLabel();
         jButtonVoltar = new javax.swing.JButton();
         jLabelTitulo = new javax.swing.JLabel();
-        jButtonCadMotorista = new javax.swing.JButton();
+        jButtonAltMotorista = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jLabelNome = new javax.swing.JLabel();
         jLabelDataNasc = new javax.swing.JLabel();
@@ -41,11 +47,16 @@ public class MenuMotoristaAlterar extends javax.swing.JFrame {
         jLabelEndereco = new javax.swing.JLabel();
         jLabelCarteira = new javax.swing.JLabel();
         jTextFieldNome = new javax.swing.JTextField();
-        jTextFieldDataNasc = new javax.swing.JTextField();
         jTextFieldCidade = new javax.swing.JTextField();
         jTextFieldEndereco = new javax.swing.JTextField();
         jTextFieldTipoCarteira = new javax.swing.JTextField();
         jFormattedTextFieldCPF = new javax.swing.JFormattedTextField();
+        jFormattedTextFieldDataNasc = new javax.swing.JFormattedTextField();
+        jLabel1 = new javax.swing.JLabel();
+        jFormattedTextFieldNumero = new javax.swing.JFormattedTextField();
+        jButtonBuscar = new javax.swing.JButton();
+        jCheckBoxAtivo = new javax.swing.JCheckBox();
+        jButtonNovaBusca = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Sistema Gestão de Rotas");
@@ -63,10 +74,16 @@ public class MenuMotoristaAlterar extends javax.swing.JFrame {
         });
 
         jLabelTitulo.setFont(new java.awt.Font("Calibri", 1, 24)); // NOI18N
-        jLabelTitulo.setText("Alterar Cadastro Motoristas");
+        jLabelTitulo.setText("Alterar Cadastro de Motoristas");
 
-        jButtonCadMotorista.setFont(new java.awt.Font("Calibri", 1, 18)); // NOI18N
-        jButtonCadMotorista.setText("Alterar Cadastro");
+        jButtonAltMotorista.setFont(new java.awt.Font("Calibri", 1, 18)); // NOI18N
+        jButtonAltMotorista.setText("Alterar Motorista");
+        jButtonAltMotorista.setEnabled(false);
+        jButtonAltMotorista.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonAltMotoristaActionPerformed(evt);
+            }
+        });
 
         jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
@@ -74,7 +91,7 @@ public class MenuMotoristaAlterar extends javax.swing.JFrame {
         jLabelNome.setText("Nome:");
 
         jLabelDataNasc.setFont(new java.awt.Font("Calibri", 1, 14)); // NOI18N
-        jLabelDataNasc.setText("DataNascimento:");
+        jLabelDataNasc.setText("Data Nascimento:");
 
         jLabelCPF.setFont(new java.awt.Font("Calibri", 1, 14)); // NOI18N
         jLabelCPF.setText("CPF:");
@@ -88,11 +105,69 @@ public class MenuMotoristaAlterar extends javax.swing.JFrame {
         jLabelCarteira.setFont(new java.awt.Font("Calibri", 1, 14)); // NOI18N
         jLabelCarteira.setText("Tipo Carteira:");
 
+        jTextFieldNome.setEditable(false);
+        jTextFieldNome.setBackground(new java.awt.Color(204, 204, 204));
+        jTextFieldNome.setFocusable(false);
+
+        jTextFieldCidade.setEditable(false);
+        jTextFieldCidade.setBackground(new java.awt.Color(204, 204, 204));
+        jTextFieldCidade.setFocusable(false);
+
+        jTextFieldEndereco.setEditable(false);
+        jTextFieldEndereco.setBackground(new java.awt.Color(204, 204, 204));
+        jTextFieldEndereco.setFocusable(false);
+
+        jTextFieldTipoCarteira.setEditable(false);
+        jTextFieldTipoCarteira.setBackground(new java.awt.Color(204, 204, 204));
+        jTextFieldTipoCarteira.setFocusable(false);
+
         try {
             jFormattedTextFieldCPF.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("###.###.###-##")));
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
+        jFormattedTextFieldCPF.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jFormattedTextFieldCPFActionPerformed(evt);
+            }
+        });
+
+        jFormattedTextFieldDataNasc.setEditable(false);
+        jFormattedTextFieldDataNasc.setBackground(new java.awt.Color(204, 204, 204));
+        jFormattedTextFieldDataNasc.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat("yyyy/MM/dd"))));
+        jFormattedTextFieldDataNasc.setToolTipText("AAAA/MM/DD");
+        jFormattedTextFieldDataNasc.setFocusable(false);
+
+        jLabel1.setFont(new java.awt.Font("Calibri", 1, 14)); // NOI18N
+        jLabel1.setText("Numero Celular:");
+
+        jFormattedTextFieldNumero.setEditable(false);
+        jFormattedTextFieldNumero.setBackground(new java.awt.Color(204, 204, 204));
+        try {
+            jFormattedTextFieldNumero.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("(##)#####-####")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+        jFormattedTextFieldNumero.setToolTipText("(DD)9xxxx-xxxx");
+        jFormattedTextFieldNumero.setFocusable(false);
+
+        jButtonBuscar.setText("Buscar");
+        jButtonBuscar.setToolTipText("");
+        jButtonBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonBuscarActionPerformed(evt);
+            }
+        });
+
+        jCheckBoxAtivo.setText("Ativo");
+        jCheckBoxAtivo.setEnabled(false);
+
+        jButtonNovaBusca.setText("Nova Busca");
+        jButtonNovaBusca.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonNovaBuscaActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -101,6 +176,14 @@ public class MenuMotoristaAlterar extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(32, 32, 32)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabelDataNasc)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jFormattedTextFieldDataNasc, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jFormattedTextFieldNumero))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabelCarteira)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -117,15 +200,25 @@ public class MenuMotoristaAlterar extends javax.swing.JFrame {
                         .addComponent(jLabelCPF)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jFormattedTextFieldCPF))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabelDataNasc)
-                        .addGap(18, 18, 18)
-                        .addComponent(jTextFieldDataNasc))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabelNome)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jTextFieldNome, javax.swing.GroupLayout.PREFERRED_SIZE, 290, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(209, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jButtonBuscar)
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(jCheckBoxAtivo)
+                                .addGap(36, 36, 36))))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 92, Short.MAX_VALUE)
+                        .addComponent(jButtonNovaBusca)
+                        .addGap(18, 18, 18))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -133,16 +226,18 @@ public class MenuMotoristaAlterar extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelNome)
-                    .addComponent(jTextFieldNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTextFieldNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jCheckBoxAtivo))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelDataNasc)
-                    .addComponent(jTextFieldDataNasc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                    .addComponent(jFormattedTextFieldDataNasc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelCPF)
-                    .addComponent(jFormattedTextFieldCPF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                    .addComponent(jFormattedTextFieldCPF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButtonBuscar))
+                .addGap(9, 9, 9)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelCidade)
                     .addComponent(jTextFieldCidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -150,11 +245,16 @@ public class MenuMotoristaAlterar extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelEndereco)
                     .addComponent(jTextFieldEndereco, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelCarteira)
                     .addComponent(jTextFieldTipoCarteira, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(58, 58, 58))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(jFormattedTextFieldNumero, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButtonNovaBusca))
+                .addGap(61, 61, 61))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -162,14 +262,11 @@ public class MenuMotoristaAlterar extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(290, 290, 290)
-                        .addComponent(jLabelLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 540, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(276, 276, 276)
-                        .addComponent(jLabelTitulo)))
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addGap(290, 290, 290)
+                .addComponent(jLabelLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 540, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(276, 276, 276)
+                .addComponent(jLabelTitulo))
             .addGroup(layout.createSequentialGroup()
                 .addGap(104, 104, 104)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -177,10 +274,10 @@ public class MenuMotoristaAlterar extends javax.swing.JFrame {
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jButtonCadMotorista)
+                        .addComponent(jButtonAltMotorista)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButtonVoltar, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(39, 39, 39))))
+                        .addGap(44, 44, 44))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -190,13 +287,13 @@ public class MenuMotoristaAlterar extends javax.swing.JFrame {
                         .addGap(90, 90, 90)
                         .addComponent(jLabelTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jLabelLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 261, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 272, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButtonVoltar)
-                    .addComponent(jButtonCadMotorista))
-                .addGap(19, 19, 19))
+                    .addComponent(jButtonAltMotorista)
+                    .addComponent(jButtonVoltar))
+                .addContainerGap(27, Short.MAX_VALUE))
         );
 
         pack();
@@ -204,10 +301,143 @@ public class MenuMotoristaAlterar extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonVoltarActionPerformed
-                    MenuMotorista motorista = new MenuMotorista();
+                     MenuMotorista motorista = new MenuMotorista();
                     motorista.setVisible(true);
-                    dispose();                
+                    dispose();                       
     }//GEN-LAST:event_jButtonVoltarActionPerformed
+
+    private void jFormattedTextFieldCPFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jFormattedTextFieldCPFActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jFormattedTextFieldCPFActionPerformed
+
+    private void jButtonAltMotoristaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAltMotoristaActionPerformed
+        String nome,datanasc,cidade,endereco,tipocarteira,telefone,cpf,ativo;
+        if(jFormattedTextFieldCPF.getText().equals("   .   .   -  ")){
+            cpf=null;
+        }else cpf = jFormattedTextFieldCPF.getText();
+        if(jTextFieldNome.getText().equals("")){
+            nome = null;
+        }else nome = jTextFieldNome.getText();
+        if(jFormattedTextFieldDataNasc.getText().equals("")){
+            datanasc = null;
+        }else datanasc = jFormattedTextFieldDataNasc.getText();
+        if(jTextFieldCidade.getText().equals("")){
+            cidade = null;
+        }else cidade = jTextFieldCidade.getText();
+        if(jTextFieldEndereco.getText().equals("")){
+            endereco = null;
+        }else endereco = jTextFieldEndereco.getText();
+        if(jTextFieldTipoCarteira.getText().equals("")){
+            tipocarteira = null;
+        }else tipocarteira = jTextFieldTipoCarteira.getText();
+        if(jFormattedTextFieldNumero.getText().equals("")){
+            telefone = null;
+        }else telefone = jFormattedTextFieldNumero.getText();
+        if (jCheckBoxAtivo.isSelected()){
+            ativo ="Y";
+            } else ativo ="N";
+        
+        try {
+            AlterarMotorista.AtualizaMotorista(nome, cpf, datanasc, cidade, endereco, tipocarteira, telefone, ativo);
+            
+        } catch (ParseException ex) {
+            Logger.getLogger(MenuMotoristaAlterar.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(MenuMotoristaAlterar.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        
+    }//GEN-LAST:event_jButtonAltMotoristaActionPerformed
+
+    private void jButtonBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonBuscarActionPerformed
+       String ID = "",CPF,Nome,DataNasc,Cidade,Endereco,TipoCarteira,NumeroCelular,Ativo;
+        if(jFormattedTextFieldCPF.getText().equals("   .   .   -  ")){
+            CPF=null;
+        }else CPF = jFormattedTextFieldCPF.getText();
+        try {
+            ID = AlterarMotorista.ValidaID(CPF);
+        } catch (ClassNotFoundException ex) {}
+        if(!"B".equals(ID)){
+            if(!"false".equals(ID)){                
+                    
+                    jFormattedTextFieldCPF.setEditable(false);
+                    jFormattedTextFieldCPF.setBackground(new java.awt.Color(204,204,204));
+                    jFormattedTextFieldCPF.setFocusable(false);
+                    
+                    jTextFieldNome.setEditable(true);
+                    jTextFieldNome.setBackground(new java.awt.Color(255, 255, 255));
+                    jTextFieldNome.setFocusable(true);
+
+                    jFormattedTextFieldDataNasc.setEditable(true);
+                    jFormattedTextFieldDataNasc.setBackground(new java.awt.Color(255, 255, 255));
+                    jFormattedTextFieldDataNasc.setFocusable(true);
+
+                    jTextFieldCidade.setEditable(true);
+                    jTextFieldCidade.setBackground(new java.awt.Color(255, 255, 255));
+                    jTextFieldCidade.setFocusable(true);
+
+                    jTextFieldEndereco.setEditable(true);
+                    jTextFieldEndereco.setBackground(new java.awt.Color(255, 255, 255));
+                    jTextFieldEndereco.setFocusable(true);
+
+                    jTextFieldTipoCarteira.setEditable(true);
+                    jTextFieldTipoCarteira.setBackground(new java.awt.Color(255, 255, 255));
+                    jTextFieldTipoCarteira.setFocusable(true);
+                    
+                    jFormattedTextFieldNumero.setEditable(true);
+                    jFormattedTextFieldNumero.setBackground(new java.awt.Color(255, 255, 255));
+                    jFormattedTextFieldNumero.setFocusable(true);
+                    
+                    jButtonAltMotorista.setEnabled(true);                   
+                    jCheckBoxAtivo.setEnabled(true);
+                    
+                try {
+                    Nome = AlterarMotorista.GetNome(ID);
+                    DataNasc = AlterarMotorista.GetDataNasc(ID);
+                    Cidade = AlterarMotorista.GetCidade(ID);
+                    Endereco = AlterarMotorista.GetEndereco(ID);
+                    TipoCarteira = AlterarMotorista.GetTipoCarteira(ID);
+                    NumeroCelular = AlterarMotorista.GetNumeroCelular(ID);
+                    Ativo = AlterarMotorista.GetAtivo(ID);
+                    
+                    jTextFieldNome.setText(Nome);
+                    jFormattedTextFieldDataNasc.setText(DataNasc);
+                    jTextFieldCidade.setText(Cidade);
+                    jTextFieldEndereco.setText(Endereco);
+                    jTextFieldTipoCarteira.setText(TipoCarteira);
+                    jFormattedTextFieldNumero.setText(NumeroCelular);
+                    
+                    if (Ativo.equals("Y")){
+                        jCheckBoxAtivo.setSelected(true);
+                    }
+                    if (Ativo.equals("N")){
+                        jCheckBoxAtivo.setSelected(false);
+                    }
+                } catch (ClassNotFoundException ex) {
+                    Logger.getLogger(MenuMotoristaAlterar.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                
+                
+                    
+                    
+
+            }else{
+                final JPanel panel = new JPanel();
+                JOptionPane.showMessageDialog(panel, "CPF não localizado, favor revisar", "ERRO!",
+                JOptionPane.WARNING_MESSAGE);
+            }
+        }else{
+            final JPanel panel = new JPanel();
+            JOptionPane.showMessageDialog(panel, "Preencher campo de CPF", "ERRO!",
+            JOptionPane.WARNING_MESSAGE);
+        }
+    }//GEN-LAST:event_jButtonBuscarActionPerformed
+
+    private void jButtonNovaBuscaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonNovaBuscaActionPerformed
+                    MenuMotoristaAlterar motoristaalterar = new MenuMotoristaAlterar();
+                    motoristaalterar.setVisible(true);
+                    dispose();
+    }//GEN-LAST:event_jButtonNovaBuscaActionPerformed
 
     /**
      * @param args the command line arguments
@@ -274,11 +504,19 @@ public class MenuMotoristaAlterar extends javax.swing.JFrame {
             }
         });
     }
+    
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButtonCadMotorista;
+    private javax.swing.JButton jButtonAltMotorista;
+    private javax.swing.JButton jButtonBuscar;
+    private javax.swing.JButton jButtonNovaBusca;
     private javax.swing.JButton jButtonVoltar;
+    private javax.swing.JCheckBox jCheckBoxAtivo;
     private javax.swing.JFormattedTextField jFormattedTextFieldCPF;
+    private javax.swing.JFormattedTextField jFormattedTextFieldDataNasc;
+    private javax.swing.JFormattedTextField jFormattedTextFieldNumero;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabelCPF;
     private javax.swing.JLabel jLabelCarteira;
     private javax.swing.JLabel jLabelCidade;
@@ -289,7 +527,6 @@ public class MenuMotoristaAlterar extends javax.swing.JFrame {
     private javax.swing.JLabel jLabelTitulo;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JTextField jTextFieldCidade;
-    private javax.swing.JTextField jTextFieldDataNasc;
     private javax.swing.JTextField jTextFieldEndereco;
     private javax.swing.JTextField jTextFieldNome;
     private javax.swing.JTextField jTextFieldTipoCarteira;

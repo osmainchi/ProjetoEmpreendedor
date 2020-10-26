@@ -188,6 +188,8 @@ public class MenuDemandasGestor extends javax.swing.JFrame {
             Logger.getLogger(MenuDemandasGestor.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
             Logger.getLogger(MenuDemandasGestor.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (org.json.simple.parser.ParseException ex) {
+            Logger.getLogger(MenuDemandasGestor.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButtonAprovarActionPerformed
 

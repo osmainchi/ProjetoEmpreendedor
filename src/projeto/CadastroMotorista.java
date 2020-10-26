@@ -113,18 +113,18 @@ public class CadastroMotorista {
                                 }
                             }else{
                                 final JPanel panel = new JPanel();
-                                JOptionPane.showMessageDialog(panel, "Numero de Celular já cadastrado", "Cadastro em Duplicidade!",
-                                        JOptionPane.WARNING_MESSAGE);
+                                JOptionPane.showMessageDialog(panel, "Numero de Celular Incorreto", "ERRO!",
+                                JOptionPane.WARNING_MESSAGE);
                             }
                         }else{
                             final JPanel panel = new JPanel();
                             JOptionPane.showMessageDialog(panel, "CPF Incorreto", "ERRO!",
-                                    JOptionPane.WARNING_MESSAGE);
+                            JOptionPane.WARNING_MESSAGE);
                         }
                     }else{
                         final JPanel panel = new JPanel();
                         JOptionPane.showMessageDialog(panel, "Data Incorreta, favor revisar", "ERRO!",
-                                JOptionPane.WARNING_MESSAGE);
+                        JOptionPane.WARNING_MESSAGE);
                     }
                 } catch (ParseException ex) {
                     Logger.getLogger(CadastroMotorista.class.getName()).log(Level.SEVERE, null, ex);

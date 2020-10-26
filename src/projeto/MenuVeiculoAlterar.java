@@ -5,7 +5,11 @@
  */
 package projeto;
 
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 
 /**
  *
@@ -40,14 +44,17 @@ public class MenuVeiculoAlterar extends javax.swing.JFrame {
         jLabelMotorista = new javax.swing.JLabel();
         jLabelPeso = new javax.swing.JLabel();
         jLabelCubagem = new javax.swing.JLabel();
-        jTextFieldNome = new javax.swing.JTextField();
-        jTextFieldDataNasc = new javax.swing.JTextField();
-        jTextFieldCPF = new javax.swing.JTextField();
-        jTextFieldCidade = new javax.swing.JTextField();
-        jTextFieldEndereco = new javax.swing.JTextField();
-        jTextFieldTipoCarteira = new javax.swing.JTextField();
+        jTextFieldPlaca = new javax.swing.JTextField();
+        jTextFieldFabricante = new javax.swing.JTextField();
+        jTextFieldModelo = new javax.swing.JTextField();
+        jTextFieldMotorista = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
+        jTextFieldPeso = new javax.swing.JFormattedTextField();
+        jTextFieldCubagem = new javax.swing.JFormattedTextField();
+        jButtonBuscar = new javax.swing.JButton();
+        jCheckBoxAtivo = new javax.swing.JCheckBox();
+        jButtonNovaBusca = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Sistema Gestão de Rotas");
@@ -69,6 +76,7 @@ public class MenuVeiculoAlterar extends javax.swing.JFrame {
 
         jButtonAltVeiculo.setFont(new java.awt.Font("Calibri", 1, 18)); // NOI18N
         jButtonAltVeiculo.setText("Alterar Cadastro");
+        jButtonAltVeiculo.setEnabled(false);
         jButtonAltVeiculo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonAltVeiculoActionPerformed(evt);
@@ -95,9 +103,53 @@ public class MenuVeiculoAlterar extends javax.swing.JFrame {
         jLabelCubagem.setFont(new java.awt.Font("Calibri", 1, 14)); // NOI18N
         jLabelCubagem.setText("Cubagem:");
 
+        jTextFieldFabricante.setEditable(false);
+        jTextFieldFabricante.setBackground(new java.awt.Color(204, 204, 204));
+        jTextFieldFabricante.setFocusable(false);
+
+        jTextFieldModelo.setEditable(false);
+        jTextFieldModelo.setBackground(new java.awt.Color(204, 204, 204));
+        jTextFieldModelo.setFocusable(false);
+
+        jTextFieldMotorista.setEditable(false);
+        jTextFieldMotorista.setBackground(new java.awt.Color(204, 204, 204));
+        jTextFieldMotorista.setFocusable(false);
+
         jLabel1.setText("KG");
 
         jLabel2.setText("M²");
+
+        jTextFieldPeso.setEditable(false);
+        jTextFieldPeso.setBackground(new java.awt.Color(204, 204, 204));
+        jTextFieldPeso.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter()));
+        jTextFieldPeso.setFocusable(false);
+
+        jTextFieldCubagem.setEditable(false);
+        jTextFieldCubagem.setBackground(new java.awt.Color(204, 204, 204));
+        jTextFieldCubagem.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter()));
+        jTextFieldCubagem.setFocusable(false);
+        jTextFieldCubagem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldCubagemActionPerformed(evt);
+            }
+        });
+
+        jButtonBuscar.setText("Buscar");
+        jButtonBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonBuscarActionPerformed(evt);
+            }
+        });
+
+        jCheckBoxAtivo.setText("Ativo");
+        jCheckBoxAtivo.setEnabled(false);
+
+        jButtonNovaBusca.setText("Nova Busca");
+        jButtonNovaBusca.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonNovaBuscaActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -109,66 +161,76 @@ public class MenuVeiculoAlterar extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabelMotorista)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jTextFieldCidade))
+                        .addComponent(jTextFieldMotorista))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabelModelo)
                         .addGap(18, 18, 18)
-                        .addComponent(jTextFieldCPF))
+                        .addComponent(jTextFieldModelo))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabelFabricante)
                         .addGap(18, 18, 18)
-                        .addComponent(jTextFieldDataNasc, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jTextFieldFabricante, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabelPlaca)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jTextFieldNome, javax.swing.GroupLayout.PREFERRED_SIZE, 290, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jTextFieldPlaca, javax.swing.GroupLayout.PREFERRED_SIZE, 290, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabelCubagem)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTextFieldTipoCarteira))
+                                .addComponent(jTextFieldCubagem))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabelPeso)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTextFieldEndereco, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(jTextFieldPeso, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
-                            .addComponent(jLabel2))))
-                .addContainerGap(209, Short.MAX_VALUE))
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel1))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jButtonBuscar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 23, Short.MAX_VALUE)
+                        .addComponent(jCheckBoxAtivo))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jButtonNovaBusca)))
+                .addGap(36, 36, 36))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabelPlaca)
-                            .addComponent(jTextFieldNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabelFabricante)
-                            .addComponent(jTextFieldDataNasc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabelModelo)
-                            .addComponent(jTextFieldCPF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabelMotorista)
-                            .addComponent(jTextFieldCidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabelPeso)
-                            .addComponent(jTextFieldEndereco, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabelPlaca)
+                    .addComponent(jTextFieldPlaca, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jCheckBoxAtivo)
+                    .addComponent(jButtonBuscar))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabelFabricante)
+                    .addComponent(jTextFieldFabricante, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabelModelo)
+                    .addComponent(jTextFieldModelo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabelMotorista)
+                    .addComponent(jTextFieldMotorista, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabelPeso)
+                    .addComponent(jTextFieldPeso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
                     .addComponent(jLabelCubagem)
-                    .addComponent(jTextFieldTipoCarteira, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2))
+                    .addComponent(jTextFieldCubagem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButtonNovaBusca))
                 .addGap(58, 58, 58))
         );
 
@@ -225,9 +287,136 @@ public class MenuVeiculoAlterar extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonVoltarActionPerformed
 
     private void jButtonAltVeiculoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAltVeiculoActionPerformed
-        // TODO add your handling code here:
+        String Placa, Fabricante, Modelo, Motorista, Peso, Cubagem, ativo;
+        if(jTextFieldPlaca.getText().equals("")){
+            Placa = null;
+        }else Placa =jTextFieldPlaca.getText();
+        if(jTextFieldFabricante.getText().equals("")){
+            Fabricante = null;
+        }else Fabricante =jTextFieldFabricante.getText();
+        if(jTextFieldModelo.getText().equals("")){
+            Modelo = null;
+        }else Modelo =jTextFieldModelo.getText();
+        if(jTextFieldMotorista.getText().equals("")){
+            Motorista = null;
+        }else Motorista =jTextFieldMotorista.getText();
+        if(jTextFieldPeso.getText().equals("")){
+            Peso = null;
+        }else Peso =jTextFieldPeso.getText();
+        if(jTextFieldCubagem.getText().equals("")){
+            Cubagem = null;
+        }else Cubagem =jTextFieldCubagem.getText();
+        
+        if (jCheckBoxAtivo.isSelected()){
+            ativo ="Y";
+            } else ativo ="N";
+        
+        try {
+            AlterarVeiculo.AtualizaVeiculo(Placa, Fabricante, Modelo, Motorista, Peso, Cubagem, ativo);
+        } catch (SQLException ex) {
+            Logger.getLogger(MenuVeiculoAlterar.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(MenuVeiculoAlterar.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
     }//GEN-LAST:event_jButtonAltVeiculoActionPerformed
 
+    private void jTextFieldCubagemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldCubagemActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextFieldCubagemActionPerformed
+
+    private void jButtonBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonBuscarActionPerformed
+        String ID="",Placa, Fabricante, Modelo, Motorista, Peso, Cubagem, Ativo;
+        if(jTextFieldPlaca.getText().equals("")){
+            Placa = null;
+        }else Placa =jTextFieldPlaca.getText();
+        try {
+            ID = AlterarVeiculo.ValidaPlaca(Placa);
+        } catch (ClassNotFoundException ex) {}
+        if(!"B".equals(ID)){
+            if(!"N".equals(ID)){
+                if(!"false".equals(ID)){
+
+                    jTextFieldFabricante.setEditable(true);
+                    jTextFieldFabricante.setBackground(new java.awt.Color(255, 255, 255));
+                    jTextFieldFabricante.setFocusable(true);
+
+                    jTextFieldModelo.setEditable(true);
+                    jTextFieldModelo.setBackground(new java.awt.Color(255, 255, 255));
+                    jTextFieldModelo.setFocusable(true);
+
+                    jTextFieldMotorista.setEditable(true);
+                    jTextFieldMotorista.setBackground(new java.awt.Color(255, 255, 255));
+                    jTextFieldMotorista.setFocusable(true);
+
+                    jTextFieldPeso.setEditable(true);
+                    jTextFieldPeso.setBackground(new java.awt.Color(255, 255, 255));
+                    jTextFieldPeso.setFocusable(true);
+
+                    jTextFieldCubagem.setEditable(true);
+                    jTextFieldCubagem.setBackground(new java.awt.Color(255, 255, 255));
+                    jTextFieldCubagem.setFocusable(true);
+
+                    jTextFieldPlaca.setEditable(false);
+                    jTextFieldPlaca.setBackground(new java.awt.Color(204, 204, 204));
+                    jTextFieldPlaca.setFocusable(false);
+
+                    jButtonAltVeiculo.setEnabled(true); 
+                    jCheckBoxAtivo.setEnabled(true);
+                    
+                    try {
+                        Fabricante = AlterarVeiculo.GetFabricante(ID);
+                        Modelo = AlterarVeiculo.GetModelo(ID);
+                        Motorista = AlterarVeiculo.GetMotorista(ID);
+                        Peso = AlterarVeiculo.GetPeso(ID);
+                        Cubagem = AlterarVeiculo.GetCubagem(ID);
+                        Ativo = AlterarVeiculo.GetAtivo(ID);
+                        
+                        jTextFieldFabricante.setText(Fabricante);
+                        jTextFieldModelo.setText(Modelo);
+                        jTextFieldMotorista.setText(Motorista);
+                        jTextFieldPeso.setText(Peso);
+                        jTextFieldCubagem.setText(Cubagem);
+                        
+                        
+                        if (Ativo.equals("Y")){
+                        jCheckBoxAtivo.setSelected(true);
+                        }
+                        if (Ativo.equals("N")){
+                        jCheckBoxAtivo.setSelected(false);
+                        }
+                        } catch (ClassNotFoundException ex) {
+                            Logger.getLogger(MenuVeiculoAlterar.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    
+
+                }else{
+                    final JPanel panel = new JPanel();
+                    JOptionPane.showMessageDialog(panel, "Placa não localizada, favor revisar", "ERRO!",
+                    JOptionPane.WARNING_MESSAGE);
+                }
+            }else{
+                final JPanel panel = new JPanel();
+                JOptionPane.showMessageDialog(panel, "Placa Incorreta, favor revisar", "ERRO!",
+                JOptionPane.WARNING_MESSAGE);
+            }
+        }else{
+            final JPanel panel = new JPanel();
+            JOptionPane.showMessageDialog(panel, "Preencher campo de Placa", "ERRO!",
+            JOptionPane.WARNING_MESSAGE);
+        }
+           
+    }//GEN-LAST:event_jButtonBuscarActionPerformed
+
+    private void jButtonNovaBuscaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonNovaBuscaActionPerformed
+                    MenuVeiculoAlterar veiculoalterar = new MenuVeiculoAlterar();
+                    veiculoalterar.setVisible(true);
+                    dispose();
+    }//GEN-LAST:event_jButtonNovaBuscaActionPerformed
+
+        
+
+ 
     /**
      * @param args the command line arguments
      */
@@ -328,7 +517,10 @@ public class MenuVeiculoAlterar extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonAltVeiculo;
+    private javax.swing.JButton jButtonBuscar;
+    private javax.swing.JButton jButtonNovaBusca;
     private javax.swing.JButton jButtonVoltar;
+    private javax.swing.JCheckBox jCheckBoxAtivo;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabelCubagem;
@@ -340,11 +532,11 @@ public class MenuVeiculoAlterar extends javax.swing.JFrame {
     private javax.swing.JLabel jLabelPlaca;
     private javax.swing.JLabel jLabelTitulo;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JTextField jTextFieldCPF;
-    private javax.swing.JTextField jTextFieldCidade;
-    private javax.swing.JTextField jTextFieldDataNasc;
-    private javax.swing.JTextField jTextFieldEndereco;
-    private javax.swing.JTextField jTextFieldNome;
-    private javax.swing.JTextField jTextFieldTipoCarteira;
+    private javax.swing.JFormattedTextField jTextFieldCubagem;
+    private javax.swing.JTextField jTextFieldFabricante;
+    private javax.swing.JTextField jTextFieldModelo;
+    private javax.swing.JTextField jTextFieldMotorista;
+    private javax.swing.JFormattedTextField jTextFieldPeso;
+    private javax.swing.JTextField jTextFieldPlaca;
     // End of variables declaration//GEN-END:variables
 }
