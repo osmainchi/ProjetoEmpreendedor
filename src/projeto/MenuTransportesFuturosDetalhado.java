@@ -20,12 +20,12 @@ import javax.swing.JOptionPane;
  *
  * @author user
  */
-public class MenuTransportesAndamentoDetalhado extends javax.swing.JFrame {
+public class MenuTransportesFuturosDetalhado extends javax.swing.JFrame {
 
     /**
      * Creates new form MenuPrincipal
      */
-    public MenuTransportesAndamentoDetalhado(String ID) throws ClassNotFoundException, SQLException {
+    public MenuTransportesFuturosDetalhado(String ID) throws ClassNotFoundException, SQLException {
         initComponents();
         String NomeMotorista = null, NomeVeiculo = null, Endereco = null, NumPedido = null, DataEntrega = null;
         
@@ -49,7 +49,7 @@ public class MenuTransportesAndamentoDetalhado extends javax.swing.JFrame {
         jLabelDataEntrega.setText(DataEntrega);
     }
 
-    MenuTransportesAndamentoDetalhado() {
+    MenuTransportesFuturosDetalhado() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -96,7 +96,7 @@ public class MenuTransportesAndamentoDetalhado extends javax.swing.JFrame {
         });
 
         jLabelTitulo.setFont(new java.awt.Font("Calibri", 1, 24)); // NOI18N
-        jLabelTitulo.setText("Transportes em Andamento");
+        jLabelTitulo.setText("Transporte Futuro");
 
         jButtonCadMotorista.setFont(new java.awt.Font("Calibri", 1, 18)); // NOI18N
         jButtonCadMotorista.setText("Cadastro Motorista");
@@ -186,7 +186,7 @@ public class MenuTransportesAndamentoDetalhado extends javax.swing.JFrame {
                         .addComponent(jLabel5)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabelDataEntrega)))
-                .addContainerGap(151, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -239,8 +239,8 @@ public class MenuTransportesAndamentoDetalhado extends javax.swing.JFrame {
                         .addGap(0, 0, Short.MAX_VALUE))))
             .addGroup(layout.createSequentialGroup()
                 .addGap(57, 57, 57)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addComponent(jPanelMapa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(57, 57, 57))
         );
@@ -252,7 +252,7 @@ public class MenuTransportesAndamentoDetalhado extends javax.swing.JFrame {
                         .addGap(90, 90, 90)
                         .addComponent(jLabelTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jLabelLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 62, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 67, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanelMapa, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -274,9 +274,9 @@ public class MenuTransportesAndamentoDetalhado extends javax.swing.JFrame {
         try {
             andamento = new MenuTransportesAndamento();
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(MenuTransportesAndamentoDetalhado.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MenuTransportesFuturosDetalhado.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
-            Logger.getLogger(MenuTransportesAndamentoDetalhado.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MenuTransportesFuturosDetalhado.class.getName()).log(Level.SEVERE, null, ex);
         }
                     andamento.setVisible(true);
                     dispose();                
@@ -293,30 +293,30 @@ public class MenuTransportesAndamentoDetalhado extends javax.swing.JFrame {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(MenuTransportesAndamentoDetalhado.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MenuTransportesFuturosDetalhado.class.getName()).log(Level.SEVERE, null, ex);
         }
         Connection conexao = null;
         try {
             conexao = DriverManager.getConnection("jdbc:mysql://localhost:3306/gestaofrotas?useTimezone=true&serverTimezone=UTC","javaapp","projeto");
         } catch (SQLException ex) {
-            Logger.getLogger(MenuTransportesAndamentoDetalhado.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MenuTransportesFuturosDetalhado.class.getName()).log(Level.SEVERE, null, ex);
         }
         Statement st = null;
         try {
             st = conexao.createStatement();
         } catch (SQLException ex) {
-            Logger.getLogger(MenuTransportesAndamentoDetalhado.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MenuTransportesFuturosDetalhado.class.getName()).log(Level.SEVERE, null, ex);
         }
         try {
             st.executeQuery("Select CPF from motorista where Nome ='"+Nome+"'");
         } catch (SQLException ex) {
-            Logger.getLogger(MenuTransportesAndamentoDetalhado.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MenuTransportesFuturosDetalhado.class.getName()).log(Level.SEVERE, null, ex);
         }
         ResultSet rs = null;
         try {
             rs = st.getResultSet();
         } catch (SQLException ex) {
-            Logger.getLogger(MenuTransportesAndamentoDetalhado.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MenuTransportesFuturosDetalhado.class.getName()).log(Level.SEVERE, null, ex);
         }
         try {
             if(rs.next()){
@@ -345,14 +345,22 @@ public class MenuTransportesAndamentoDetalhado extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(MenuTransportesAndamentoDetalhado.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(MenuTransportesFuturosDetalhado.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(MenuTransportesAndamentoDetalhado.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(MenuTransportesFuturosDetalhado.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(MenuTransportesAndamentoDetalhado.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(MenuTransportesFuturosDetalhado.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(MenuTransportesAndamentoDetalhado.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(MenuTransportesFuturosDetalhado.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
@@ -366,11 +374,11 @@ public class MenuTransportesAndamentoDetalhado extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
-                    new MenuTransportesAndamentoDetalhado(ID).setVisible(true);
+                    new MenuTransportesFuturosDetalhado(ID).setVisible(true);
                 } catch (ClassNotFoundException ex) {
-                    Logger.getLogger(MenuTransportesAndamentoDetalhado.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(MenuTransportesFuturosDetalhado.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (SQLException ex) {
-                    Logger.getLogger(MenuTransportesAndamentoDetalhado.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(MenuTransportesFuturosDetalhado.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         });

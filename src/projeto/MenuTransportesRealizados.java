@@ -5,6 +5,16 @@
  */
 package projeto;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.DefaultListModel;
+import javax.swing.JList;
 import javax.swing.JOptionPane;
 
 /**
@@ -16,8 +26,23 @@ public class MenuTransportesRealizados extends javax.swing.JFrame {
     /**
      * Creates new form MenuPrincipal
      */
-    public MenuTransportesRealizados() {
+    public MenuTransportesRealizados() throws ClassNotFoundException, SQLException {
+        
         initComponents();
+        
+        DefaultListModel model = new DefaultListModel();      
+        Class.forName("com.mysql.cj.jdbc.Driver");
+        Connection conexao;
+        conexao = DriverManager.getConnection("jdbc:mysql://localhost:3306/gestaofrotas?useTimezone=true&serverTimezone=UTC","javaapp","projeto");
+        Statement st = conexao.createStatement();
+        st.executeQuery("Select ID from transportes where TransporteConfirmado ='Y' and TransporteFinalizado = 'Y'");
+        ResultSet rs = st.getResultSet();
+        while(rs.next()){
+            String Add =rs.getString(1);
+            model.addElement(Add);            
+        }
+        jList1.setModel(model);
+        
     }
 
     /**
@@ -29,19 +54,19 @@ public class MenuTransportesRealizados extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
+        jLabelLogo = new javax.swing.JLabel();
         jButtonVoltar = new javax.swing.JButton();
-        jLabel2 = new javax.swing.JLabel();
+        jLabelTitulo = new javax.swing.JLabel();
+        jButtonAndamentoDetalhado = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
-        jButtonVisualizar = new javax.swing.JButton();
+        jList1 = new javax.swing.JList<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Sistema Gestão de Rotas");
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         setResizable(false);
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/74ec9ee6-a826-4d38-ba41-d7db8d8fed22_200x200.png"))); // NOI18N
+        jLabelLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/74ec9ee6-a826-4d38-ba41-d7db8d8fed22_200x200.png"))); // NOI18N
 
         jButtonVoltar.setFont(new java.awt.Font("Calibri", 1, 18)); // NOI18N
         jButtonVoltar.setText("Voltar");
@@ -51,55 +76,55 @@ public class MenuTransportesRealizados extends javax.swing.JFrame {
             }
         });
 
-        jLabel2.setFont(new java.awt.Font("Calibri", 1, 24)); // NOI18N
-        jLabel2.setText("Transportes Realizados");
+        jLabelTitulo.setFont(new java.awt.Font("Calibri", 1, 24)); // NOI18N
+        jLabelTitulo.setText("Transportes Realizados");
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
-
-        jButtonVisualizar.setText("Visualizar");
-        jButtonVisualizar.addActionListener(new java.awt.event.ActionListener() {
+        jButtonAndamentoDetalhado.setFont(new java.awt.Font("Calibri", 1, 18)); // NOI18N
+        jButtonAndamentoDetalhado.setText("Visualizar");
+        jButtonAndamentoDetalhado.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonVisualizarActionPerformed(evt);
+                jButtonAndamentoDetalhadoActionPerformed(evt);
             }
         });
+
+        jScrollPane1.setViewportView(jList1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(282, 282, 282)
+                .addGap(260, 260, 260)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabelTitulo)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(8, 8, 8)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 540, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(30, 30, 30)
+                        .addComponent(jLabelLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 540, javax.swing.GroupLayout.PREFERRED_SIZE))))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jButtonAndamentoDetalhado)
+                .addGap(18, 18, 18)
+                .addComponent(jButtonVoltar, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(47, 47, 47))
             .addGroup(layout.createSequentialGroup()
-                .addGap(691, 691, 691)
-                .addComponent(jButtonVoltar, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(53, 53, 53)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jButtonVisualizar)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(78, 78, 78)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 697, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(95, 95, 95)
-                        .addComponent(jLabel2))
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(17, 17, 17)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButtonVisualizar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 143, Short.MAX_VALUE)
-                .addComponent(jButtonVoltar)
-                .addGap(29, 29, 29))
+                        .addGap(90, 90, 90)
+                        .addComponent(jLabelTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabelLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 250, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jButtonVoltar)
+                    .addComponent(jButtonAndamentoDetalhado, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(24, 24, 24))
         );
 
         pack();
@@ -112,11 +137,19 @@ public class MenuTransportesRealizados extends javax.swing.JFrame {
                     dispose();                
     }//GEN-LAST:event_jButtonVoltarActionPerformed
 
-    private void jButtonVisualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonVisualizarActionPerformed
-                    MenuTransportesRealizadosDetalhado transportesrealizadosdetalhado = new MenuTransportesRealizadosDetalhado();
-                    transportesrealizadosdetalhado.setVisible(true);
-                    dispose();      
-    }//GEN-LAST:event_jButtonVisualizarActionPerformed
+    private void jButtonAndamentoDetalhadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAndamentoDetalhadoActionPerformed
+        int index =jList1.getSelectedIndex();
+        if(index < 0){
+            JOptionPane.showMessageDialog(null,"Selecione uma opção",
+            "Atenção!",JOptionPane.INFORMATION_MESSAGE);
+        }else{        
+        String ID = jList1.getSelectedValue();
+        MenuTransportesRealizadosDetalhado.Menu(ID);        
+        dispose();   
+        }
+        
+        
+    }//GEN-LAST:event_jButtonAndamentoDetalhadoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -147,21 +180,31 @@ public class MenuTransportesRealizados extends javax.swing.JFrame {
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new MenuTransportesRealizados().setVisible(true);
+                try {
+                    new MenuTransportesRealizados().setVisible(true);
+                } catch (ClassNotFoundException ex) {
+                    Logger.getLogger(MenuTransportesRealizados.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (SQLException ex) {
+                    Logger.getLogger(MenuTransportesRealizados.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButtonVisualizar;
+    private javax.swing.JButton jButtonAndamentoDetalhado;
     private javax.swing.JButton jButtonVoltar;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabelLogo;
+    private javax.swing.JLabel jLabelTitulo;
+    private javax.swing.JList<String> jList1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea jTextArea1;
     // End of variables declaration//GEN-END:variables
 }

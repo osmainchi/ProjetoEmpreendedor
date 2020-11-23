@@ -5,6 +5,16 @@
  */
 package projeto;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.DefaultListModel;
+import javax.swing.JList;
 import javax.swing.JOptionPane;
 
 /**
@@ -16,8 +26,23 @@ public class MenuTransportesAndamento extends javax.swing.JFrame {
     /**
      * Creates new form MenuPrincipal
      */
-    public MenuTransportesAndamento() {
+    public MenuTransportesAndamento() throws ClassNotFoundException, SQLException {
+        
         initComponents();
+        
+        DefaultListModel model = new DefaultListModel();      
+        Class.forName("com.mysql.cj.jdbc.Driver");
+        Connection conexao;
+        conexao = DriverManager.getConnection("jdbc:mysql://localhost:3306/gestaofrotas?useTimezone=true&serverTimezone=UTC","javaapp","projeto");
+        Statement st = conexao.createStatement();
+        st.executeQuery("Select ID from transportes where TransporteConfirmado ='Y' and TransporteFinalizado = 'N' and TransporteIniciado = 'Y'");
+        ResultSet rs = st.getResultSet();
+        while(rs.next()){
+            String Add =rs.getString(1);
+            model.addElement(Add);            
+        }
+        jList1.setModel(model);
+        
     }
 
     /**
@@ -33,8 +58,8 @@ public class MenuTransportesAndamento extends javax.swing.JFrame {
         jButtonVoltar = new javax.swing.JButton();
         jLabelTitulo = new javax.swing.JLabel();
         jButtonAndamentoDetalhado = new javax.swing.JButton();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jTextPaneResultado = new javax.swing.JTextPane();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jList1 = new javax.swing.JList<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Sistema Gestão de Rotas");
@@ -54,6 +79,7 @@ public class MenuTransportesAndamento extends javax.swing.JFrame {
         jLabelTitulo.setFont(new java.awt.Font("Calibri", 1, 24)); // NOI18N
         jLabelTitulo.setText("Transportes em Andamento");
 
+        jButtonAndamentoDetalhado.setFont(new java.awt.Font("Calibri", 1, 18)); // NOI18N
         jButtonAndamentoDetalhado.setText("Visualizar");
         jButtonAndamentoDetalhado.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -61,7 +87,7 @@ public class MenuTransportesAndamento extends javax.swing.JFrame {
             }
         });
 
-        jScrollPane2.setViewportView(jTextPaneResultado);
+        jScrollPane1.setViewportView(jList1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -74,15 +100,15 @@ public class MenuTransportesAndamento extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(30, 30, 30)
                         .addComponent(jLabelLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 540, javax.swing.GroupLayout.PREFERRED_SIZE))))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(63, 63, 63)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButtonAndamentoDetalhado)))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
+                .addComponent(jButtonAndamentoDetalhado)
+                .addGap(18, 18, 18)
                 .addComponent(jButtonVoltar, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(47, 47, 47))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(78, 78, 78)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 697, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -92,12 +118,12 @@ public class MenuTransportesAndamento extends javax.swing.JFrame {
                         .addGap(90, 90, 90)
                         .addComponent(jLabelTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jLabelLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(9, 9, 9)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButtonAndamentoDetalhado)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 136, Short.MAX_VALUE)
-                .addComponent(jButtonVoltar)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 250, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jButtonVoltar)
+                    .addComponent(jButtonAndamentoDetalhado, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(24, 24, 24))
         );
 
@@ -112,9 +138,17 @@ public class MenuTransportesAndamento extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonVoltarActionPerformed
 
     private void jButtonAndamentoDetalhadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAndamentoDetalhadoActionPerformed
-        MenuTransportesAndamentoDetalhado AndamentoDetalhado = new MenuTransportesAndamentoDetalhado();
-                    AndamentoDetalhado.setVisible(true);
-                    dispose();   
+        int index =jList1.getSelectedIndex();
+        if(index < 0){
+            JOptionPane.showMessageDialog(null,"Selecione uma opção",
+            "Atenção!",JOptionPane.INFORMATION_MESSAGE);
+        }else{        
+        String ID = jList1.getSelectedValue();
+        MenuTransportesAndamentoDetalhado.Menu(ID);        
+        dispose();   
+        }
+        
+        
     }//GEN-LAST:event_jButtonAndamentoDetalhadoActionPerformed
 
     /**
@@ -150,7 +184,13 @@ public class MenuTransportesAndamento extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new MenuTransportesAndamento().setVisible(true);
+                try {
+                    new MenuTransportesAndamento().setVisible(true);
+                } catch (ClassNotFoundException ex) {
+                    Logger.getLogger(MenuTransportesAndamento.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (SQLException ex) {
+                    Logger.getLogger(MenuTransportesAndamento.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }
@@ -160,7 +200,7 @@ public class MenuTransportesAndamento extends javax.swing.JFrame {
     private javax.swing.JButton jButtonVoltar;
     private javax.swing.JLabel jLabelLogo;
     private javax.swing.JLabel jLabelTitulo;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTextPane jTextPaneResultado;
+    private javax.swing.JList<String> jList1;
+    private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
 }

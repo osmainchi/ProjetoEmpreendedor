@@ -131,8 +131,8 @@ public class MenuMotorista extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonBuscarDemandasActionPerformed
 
     private void jButtonAlterarCadastroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAlterarCadastroActionPerformed
-                    MenuMotoristaAlterar motoristaalterar = new MenuMotoristaAlterar();
-                    motoristaalterar.setVisible(true);
+                    String CPF = null;
+                    MenuMotoristaAlterar.AltMotorista(CPF);                    
                     dispose();
     }//GEN-LAST:event_jButtonAlterarCadastroActionPerformed
 

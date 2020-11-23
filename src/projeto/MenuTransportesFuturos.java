@@ -5,6 +5,14 @@
  */
 package projeto;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 
 /**
@@ -16,8 +24,30 @@ public class MenuTransportesFuturos extends javax.swing.JFrame {
     /**
      * Creates new form MenuPrincipal
      */
-    public MenuTransportesFuturos() {
+    public MenuTransportesFuturos() throws ClassNotFoundException, SQLException {
         initComponents();
+        
+        DefaultListModel model = new DefaultListModel();      
+        Class.forName("com.mysql.cj.jdbc.Driver");
+        Connection conexao;
+        conexao = DriverManager.getConnection("jdbc:mysql://localhost:3306/gestaofrotas?useTimezone=true&serverTimezone=UTC","javaapp","projeto");
+        Statement st = conexao.createStatement();
+        st.executeQuery("Select ID from transportes where TransporteConfirmado ='N' and TransporteFinalizado = 'N' and TransporteIniciado ='N'");
+        ResultSet rs = st.getResultSet();
+        while(rs.next()){
+            String Add =rs.getString(1);
+            model.addElement(Add);            
+        }
+        jList2.setModel(model);
+        DefaultListModel model2 = new DefaultListModel(); 
+        Statement sta = conexao.createStatement();
+        sta.executeQuery("Select ID from transportes where TransporteIniciado = 'N' and TransporteConfirmado ='Y'");
+        ResultSet rss = sta.getResultSet();
+        while(rss.next()){
+            String Add =rss.getString(1);
+            model2.addElement(Add);            
+        }
+        jList1.setModel(model2);
     }
 
     /**
@@ -33,9 +63,12 @@ public class MenuTransportesFuturos extends javax.swing.JFrame {
         jButtonVoltar = new javax.swing.JButton();
         jLabelTitulo = new javax.swing.JLabel();
         jLabelConfirmados = new javax.swing.JLabel();
-        jPanelConfirmados = new javax.swing.JPanel();
-        jPanelAguarando = new javax.swing.JPanel();
         jLabelAguardando = new javax.swing.JLabel();
+        jButtonConfirmado = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jList1 = new javax.swing.JList<>();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jList2 = new javax.swing.JList<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Sistema Gestão de Rotas");
@@ -58,34 +91,20 @@ public class MenuTransportesFuturos extends javax.swing.JFrame {
         jLabelConfirmados.setFont(new java.awt.Font("Calibri", 1, 18)); // NOI18N
         jLabelConfirmados.setText("Confirmados");
 
-        jPanelConfirmados.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-
-        javax.swing.GroupLayout jPanelConfirmadosLayout = new javax.swing.GroupLayout(jPanelConfirmados);
-        jPanelConfirmados.setLayout(jPanelConfirmadosLayout);
-        jPanelConfirmadosLayout.setHorizontalGroup(
-            jPanelConfirmadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 283, Short.MAX_VALUE)
-        );
-        jPanelConfirmadosLayout.setVerticalGroup(
-            jPanelConfirmadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-
-        jPanelAguarando.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-
-        javax.swing.GroupLayout jPanelAguarandoLayout = new javax.swing.GroupLayout(jPanelAguarando);
-        jPanelAguarando.setLayout(jPanelAguarandoLayout);
-        jPanelAguarandoLayout.setHorizontalGroup(
-            jPanelAguarandoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 292, Short.MAX_VALUE)
-        );
-        jPanelAguarandoLayout.setVerticalGroup(
-            jPanelAguarandoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 188, Short.MAX_VALUE)
-        );
-
         jLabelAguardando.setFont(new java.awt.Font("Calibri", 1, 18)); // NOI18N
-        jLabelAguardando.setText("Aguarando Confirmação Motorsita");
+        jLabelAguardando.setText("Aguarando Confirmação Motorista");
+
+        jButtonConfirmado.setFont(new java.awt.Font("Calibri", 1, 18)); // NOI18N
+        jButtonConfirmado.setText("Visualizar");
+        jButtonConfirmado.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonConfirmadoActionPerformed(evt);
+            }
+        });
+
+        jScrollPane1.setViewportView(jList1);
+
+        jScrollPane2.setViewportView(jList2);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -97,23 +116,24 @@ public class MenuTransportesFuturos extends javax.swing.JFrame {
                     .addComponent(jLabelTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabelLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 540, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(0, 0, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(85, 85, 85)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanelConfirmados, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabelConfirmados))
-                .addGap(109, 109, 109)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabelAguardando)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jPanelAguarando, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jButtonVoltar, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(49, 49, 49))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(85, 85, 85)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(jButtonConfirmado)
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(jLabelConfirmados)
+                            .addGap(188, 188, 188)))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 285, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(109, 109, 109)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabelAguardando)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 294, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -127,11 +147,13 @@ public class MenuTransportesFuturos extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelAguardando)
                     .addComponent(jLabelConfirmados))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanelAguarando, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanelConfirmados, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(52, 52, 52)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 195, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButtonConfirmado)
+                .addGap(18, 18, 18)
                 .addComponent(jButtonVoltar)
                 .addGap(27, 27, 27))
         );
@@ -145,6 +167,18 @@ public class MenuTransportesFuturos extends javax.swing.JFrame {
                     transportes.setVisible(true);
                     dispose();                
     }//GEN-LAST:event_jButtonVoltarActionPerformed
+
+    private void jButtonConfirmadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonConfirmadoActionPerformed
+       int index =jList1.getSelectedIndex();
+        if(index < 0){
+            JOptionPane.showMessageDialog(null,"Selecione uma opção",
+            "Atenção!",JOptionPane.INFORMATION_MESSAGE);
+        }else{        
+        String ID = jList1.getSelectedValue();
+        MenuTransportesFuturosDetalhado.Menu(ID);        
+        dispose();   
+        }
+    }//GEN-LAST:event_jButtonConfirmadoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -191,18 +225,27 @@ public class MenuTransportesFuturos extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new MenuTransportesFuturos().setVisible(true);
+                try {
+                    new MenuTransportesFuturos().setVisible(true);
+                } catch (ClassNotFoundException ex) {
+                    Logger.getLogger(MenuTransportesFuturos.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (SQLException ex) {
+                    Logger.getLogger(MenuTransportesFuturos.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButtonConfirmado;
     private javax.swing.JButton jButtonVoltar;
     private javax.swing.JLabel jLabelAguardando;
     private javax.swing.JLabel jLabelConfirmados;
     private javax.swing.JLabel jLabelLogo;
     private javax.swing.JLabel jLabelTitulo;
-    private javax.swing.JPanel jPanelAguarando;
-    private javax.swing.JPanel jPanelConfirmados;
+    private javax.swing.JList<String> jList1;
+    private javax.swing.JList<String> jList2;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     // End of variables declaration//GEN-END:variables
 }

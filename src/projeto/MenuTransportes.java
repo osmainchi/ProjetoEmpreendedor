@@ -5,6 +5,9 @@
  */
 package projeto;
 
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -125,13 +128,27 @@ public class MenuTransportes extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonTransportesAndamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonTransportesAndamentoActionPerformed
-        MenuTransportesAndamento andamento = new MenuTransportesAndamento();
+        MenuTransportesAndamento andamento = null;
+        try {
+            andamento = new MenuTransportesAndamento();
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(MenuTransportes.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(MenuTransportes.class.getName()).log(Level.SEVERE, null, ex);
+        }
                     andamento.setVisible(true);
                     dispose();
     }//GEN-LAST:event_jButtonTransportesAndamentoActionPerformed
 
     private void jButtonTransportesRealizadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonTransportesRealizadosActionPerformed
-        MenuTransportesRealizados realizados = new MenuTransportesRealizados();
+        MenuTransportesRealizados realizados = null;
+        try {
+            realizados = new MenuTransportesRealizados();
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(MenuTransportes.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(MenuTransportes.class.getName()).log(Level.SEVERE, null, ex);
+        }
                     realizados.setVisible(true);
                     dispose();
     }//GEN-LAST:event_jButtonTransportesRealizadosActionPerformed
@@ -149,7 +166,14 @@ public class MenuTransportes extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonBuscarTransporteActionPerformed
 
     private void jButtonTransportesFuturosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonTransportesFuturosActionPerformed
-                    MenuTransportesFuturos futuro = new MenuTransportesFuturos();
+                    MenuTransportesFuturos futuro = null;
+        try {
+            futuro = new MenuTransportesFuturos();
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(MenuTransportes.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(MenuTransportes.class.getName()).log(Level.SEVERE, null, ex);
+        }
                     futuro.setVisible(true);
                     dispose();   
     }//GEN-LAST:event_jButtonTransportesFuturosActionPerformed

@@ -22,8 +22,91 @@ public class MenuMotoristaAlterar extends javax.swing.JFrame {
     /**
      * Creates new form MenuPrincipal
      */
-    public MenuMotoristaAlterar() {
+    public MenuMotoristaAlterar(String CPF) {
         initComponents();
+        String ID = "",Nome,DataNasc,Cidade,Endereco,TipoCarteira,NumeroCelular,Ativo;
+        if (CPF != null){
+            jFormattedTextFieldCPF.setText(CPF);
+            try {
+            ID = AlterarMotorista.ValidaID(CPF);
+        } catch (ClassNotFoundException ex) {}
+        if(!"B".equals(ID)){
+            if(!"false".equals(ID)){                
+                    
+                    jFormattedTextFieldCPF.setEditable(false);
+                    jFormattedTextFieldCPF.setBackground(new java.awt.Color(204,204,204));
+                    jFormattedTextFieldCPF.setFocusable(false);
+                    
+                    jTextFieldNome.setEditable(true);
+                    jTextFieldNome.setBackground(new java.awt.Color(255, 255, 255));
+                    jTextFieldNome.setFocusable(true);
+
+                    jFormattedTextFieldDataNasc.setEditable(true);
+                    jFormattedTextFieldDataNasc.setBackground(new java.awt.Color(255, 255, 255));
+                    jFormattedTextFieldDataNasc.setFocusable(true);
+
+                    jTextFieldCidade.setEditable(true);
+                    jTextFieldCidade.setBackground(new java.awt.Color(255, 255, 255));
+                    jTextFieldCidade.setFocusable(true);
+
+                    jTextFieldEndereco.setEditable(true);
+                    jTextFieldEndereco.setBackground(new java.awt.Color(255, 255, 255));
+                    jTextFieldEndereco.setFocusable(true);
+
+                    jTextFieldTipoCarteira.setEditable(true);
+                    jTextFieldTipoCarteira.setBackground(new java.awt.Color(255, 255, 255));
+                    jTextFieldTipoCarteira.setFocusable(true);
+                    
+                    jFormattedTextFieldNumero.setEditable(true);
+                    jFormattedTextFieldNumero.setBackground(new java.awt.Color(255, 255, 255));
+                    jFormattedTextFieldNumero.setFocusable(true);
+                    
+                    jButtonAltMotorista.setEnabled(true);                   
+                    jCheckBoxAtivo.setEnabled(true);
+                    
+                try {
+                    Nome = AlterarMotorista.GetNome(ID);
+                    DataNasc = AlterarMotorista.GetDataNasc(ID);
+                    Cidade = AlterarMotorista.GetCidade(ID);
+                    Endereco = AlterarMotorista.GetEndereco(ID);
+                    TipoCarteira = AlterarMotorista.GetTipoCarteira(ID);
+                    NumeroCelular = AlterarMotorista.GetNumeroCelular(ID);
+                    Ativo = AlterarMotorista.GetAtivo(ID);
+                    
+                    jTextFieldNome.setText(Nome);
+                    jFormattedTextFieldDataNasc.setText(DataNasc);
+                    jTextFieldCidade.setText(Cidade);
+                    jTextFieldEndereco.setText(Endereco);
+                    jTextFieldTipoCarteira.setText(TipoCarteira);
+                    jFormattedTextFieldNumero.setText(NumeroCelular);
+                    
+                    if (Ativo.equals("Y")){
+                        jCheckBoxAtivo.setSelected(true);
+                    }
+                    if (Ativo.equals("N")){
+                        jCheckBoxAtivo.setSelected(false);
+                    }
+                } catch (ClassNotFoundException ex) {
+                    Logger.getLogger(MenuMotoristaAlterar.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                
+                
+                    
+                    
+
+            }else{
+                final JPanel panel = new JPanel();
+                JOptionPane.showMessageDialog(panel, "CPF não localizado, favor revisar", "ERRO!",
+                JOptionPane.WARNING_MESSAGE);
+            }
+        }else{
+            final JPanel panel = new JPanel();
+            JOptionPane.showMessageDialog(panel, "Preencher campo de CPF", "ERRO!",
+            JOptionPane.WARNING_MESSAGE);
+        }
+            
+            
+        }
     }
 
     /**
@@ -434,15 +517,15 @@ public class MenuMotoristaAlterar extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonBuscarActionPerformed
 
     private void jButtonNovaBuscaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonNovaBuscaActionPerformed
-                    MenuMotoristaAlterar motoristaalterar = new MenuMotoristaAlterar();
-                    motoristaalterar.setVisible(true);
+                    String A = null;
+                    MenuMotoristaAlterar.AltMotorista(A);                    
                     dispose();
     }//GEN-LAST:event_jButtonNovaBuscaActionPerformed
 
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
+    public static void AltMotorista(String CPF) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -499,8 +582,8 @@ public class MenuMotoristaAlterar extends javax.swing.JFrame {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new MenuMotoristaAlterar().setVisible(true);
+            public void run() {                
+                new MenuMotoristaAlterar(CPF).setVisible(true);
             }
         });
     }
