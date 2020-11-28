@@ -131,8 +131,8 @@ public class MenuVeiculo extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonBuscarDemandasActionPerformed
 
     private void jButtonAlterarCadastroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAlterarCadastroActionPerformed
-                    MenuVeiculoAlterar veiculoalterar = new MenuVeiculoAlterar();
-                    veiculoalterar.setVisible(true);
+                    String Placa = null;
+                    MenuVeiculoAlterar.AltVeiculo(Placa);
                     dispose();
     }//GEN-LAST:event_jButtonAlterarCadastroActionPerformed
 

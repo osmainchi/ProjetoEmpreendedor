@@ -32,20 +32,26 @@ public class MenuTransportesFuturos extends javax.swing.JFrame {
         Connection conexao;
         conexao = DriverManager.getConnection("jdbc:mysql://localhost:3306/gestaofrotas?useTimezone=true&serverTimezone=UTC","javaapp","projeto");
         Statement st = conexao.createStatement();
-        st.executeQuery("Select ID from transportes where TransporteConfirmado ='N' and TransporteFinalizado = 'N' and TransporteIniciado ='N'");
+        st.executeQuery("Select ID,NumeroPedido, DataEntrega from transportes where TransporteConfirmado ='N' and TransporteFinalizado = 'N' and TransporteIniciado ='N'");
         ResultSet rs = st.getResultSet();
         while(rs.next()){
             String Add =rs.getString(1);
-            model.addElement(Add);            
+            String Add2=rs.getString(2);
+            String Add3=rs.getString(3);
+            String Linha = Add+"        "+Add2+"       "+Add3;
+            model.addElement(Linha);            
         }
         jList2.setModel(model);
         DefaultListModel model2 = new DefaultListModel(); 
         Statement sta = conexao.createStatement();
-        sta.executeQuery("Select ID from transportes where TransporteIniciado = 'N' and TransporteConfirmado ='Y'");
+        sta.executeQuery("Select ID,NumeroPedido,DataEntrega from transportes where TransporteIniciado = 'N' and TransporteConfirmado ='Y'");
         ResultSet rss = sta.getResultSet();
         while(rss.next()){
             String Add =rss.getString(1);
-            model2.addElement(Add);            
+            String Add2=rss.getString(2);
+            String Add3=rss.getString(3);
+            String Linha = Add+"        "+Add2+"       "+Add3;
+            model2.addElement(Linha);            
         }
         jList1.setModel(model2);
     }

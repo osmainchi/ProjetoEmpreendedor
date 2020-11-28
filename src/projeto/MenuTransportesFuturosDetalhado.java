@@ -120,7 +120,7 @@ public class MenuTransportesFuturosDetalhado extends javax.swing.JFrame {
         jPanelMapa.setLayout(jPanelMapaLayout);
         jPanelMapaLayout.setHorizontalGroup(
             jPanelMapaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 379, Short.MAX_VALUE)
+            .addGap(0, 226, Short.MAX_VALUE)
         );
         jPanelMapaLayout.setVerticalGroup(
             jPanelMapaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -283,7 +283,10 @@ public class MenuTransportesFuturosDetalhado extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonVoltarActionPerformed
 
     private void jButtonCadVeiculoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCadVeiculoActionPerformed
-        // TODO add your handling code here:
+                String Placa;
+        Placa = jLabelVeiculo.getText();
+        MenuVeiculoAlterar.AltVeiculo(Placa);
+        dispose();
     }//GEN-LAST:event_jButtonCadVeiculoActionPerformed
 
     private void jButtonCadMotoristaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCadMotoristaActionPerformed

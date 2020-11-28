@@ -20,8 +20,87 @@ public class MenuVeiculoAlterar extends javax.swing.JFrame {
     /**
      * Creates new form MenuPrincipal
      */
-    public MenuVeiculoAlterar() {
+    public MenuVeiculoAlterar(String Placa) {
         initComponents();
+        String ID="", Fabricante, Modelo, Motorista, Peso, Cubagem, Ativo;
+        if(Placa != null){
+            jTextFieldPlaca.setText(Placa);
+            try {
+            ID = AlterarVeiculo.ValidaPlaca(Placa);
+        } catch (ClassNotFoundException ex) {}
+        if(!"B".equals(ID)){
+            if(!"N".equals(ID)){
+                if(!"false".equals(ID)){
+
+                    jTextFieldFabricante.setEditable(true);
+                    jTextFieldFabricante.setBackground(new java.awt.Color(255, 255, 255));
+                    jTextFieldFabricante.setFocusable(true);
+
+                    jTextFieldModelo.setEditable(true);
+                    jTextFieldModelo.setBackground(new java.awt.Color(255, 255, 255));
+                    jTextFieldModelo.setFocusable(true);
+
+                    jTextFieldMotorista.setEditable(true);
+                    jTextFieldMotorista.setBackground(new java.awt.Color(255, 255, 255));
+                    jTextFieldMotorista.setFocusable(true);
+
+                    jTextFieldPeso.setEditable(true);
+                    jTextFieldPeso.setBackground(new java.awt.Color(255, 255, 255));
+                    jTextFieldPeso.setFocusable(true);
+
+                    jTextFieldCubagem.setEditable(true);
+                    jTextFieldCubagem.setBackground(new java.awt.Color(255, 255, 255));
+                    jTextFieldCubagem.setFocusable(true);
+
+                    jTextFieldPlaca.setEditable(false);
+                    jTextFieldPlaca.setBackground(new java.awt.Color(204, 204, 204));
+                    jTextFieldPlaca.setFocusable(false);
+
+                    jButtonAltVeiculo.setEnabled(true); 
+                    jCheckBoxAtivo.setEnabled(true);
+                    
+                    try {
+                        Fabricante = AlterarVeiculo.GetFabricante(ID);
+                        Modelo = AlterarVeiculo.GetModelo(ID);
+                        Motorista = AlterarVeiculo.GetMotorista(ID);
+                        Peso = AlterarVeiculo.GetPeso(ID);
+                        Cubagem = AlterarVeiculo.GetCubagem(ID);
+                        Ativo = AlterarVeiculo.GetAtivo(ID);
+                        
+                        jTextFieldFabricante.setText(Fabricante);
+                        jTextFieldModelo.setText(Modelo);
+                        jTextFieldMotorista.setText(Motorista);
+                        jTextFieldPeso.setText(Peso);
+                        jTextFieldCubagem.setText(Cubagem);
+                        
+                        
+                        if (Ativo.equals("Y")){
+                        jCheckBoxAtivo.setSelected(true);
+                        }
+                        if (Ativo.equals("N")){
+                        jCheckBoxAtivo.setSelected(false);
+                        }
+                        } catch (ClassNotFoundException ex) {
+                            Logger.getLogger(MenuVeiculoAlterar.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    
+
+                }else{
+                    final JPanel panel = new JPanel();
+                    JOptionPane.showMessageDialog(panel, "Placa não localizada, favor revisar", "ERRO!",
+                    JOptionPane.WARNING_MESSAGE);
+                }
+            }else{
+                final JPanel panel = new JPanel();
+                JOptionPane.showMessageDialog(panel, "Placa Incorreta, favor revisar", "ERRO!",
+                JOptionPane.WARNING_MESSAGE);
+            }
+        }else{
+            final JPanel panel = new JPanel();
+            JOptionPane.showMessageDialog(panel, "Preencher campo de Placa", "ERRO!",
+            JOptionPane.WARNING_MESSAGE);
+        }
+        }
     }
 
     /**
@@ -409,9 +488,9 @@ public class MenuVeiculoAlterar extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonBuscarActionPerformed
 
     private void jButtonNovaBuscaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonNovaBuscaActionPerformed
-                    MenuVeiculoAlterar veiculoalterar = new MenuVeiculoAlterar();
-                    veiculoalterar.setVisible(true);
-                    dispose();
+            String A = null;        
+            MenuVeiculoAlterar.AltVeiculo(A);            
+            dispose();
     }//GEN-LAST:event_jButtonNovaBuscaActionPerformed
 
         
@@ -420,7 +499,7 @@ public class MenuVeiculoAlterar extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
+    public static void AltVeiculo(String Placa) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -510,7 +589,7 @@ public class MenuVeiculoAlterar extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new MenuVeiculoAlterar().setVisible(true);
+                new MenuVeiculoAlterar(Placa).setVisible(true);
             }
         });
     }

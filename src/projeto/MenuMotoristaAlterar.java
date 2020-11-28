@@ -140,6 +140,7 @@ public class MenuMotoristaAlterar extends javax.swing.JFrame {
         jButtonBuscar = new javax.swing.JButton();
         jCheckBoxAtivo = new javax.swing.JCheckBox();
         jButtonNovaBusca = new javax.swing.JButton();
+        jButtonCode = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Sistema Gestão de Rotas");
@@ -337,8 +338,17 @@ public class MenuMotoristaAlterar extends javax.swing.JFrame {
                     .addComponent(jLabel1)
                     .addComponent(jFormattedTextFieldNumero, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButtonNovaBusca))
-                .addGap(61, 61, 61))
+                .addGap(59, 59, 59))
         );
+
+        jButtonCode.setFont(new java.awt.Font("Calibri", 1, 18)); // NOI18N
+        jButtonCode.setText("Gerar Código");
+        jButtonCode.setEnabled(false);
+        jButtonCode.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonCodeActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -358,6 +368,8 @@ public class MenuMotoristaAlterar extends javax.swing.JFrame {
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jButtonAltMotorista)
+                        .addGap(119, 119, 119)
+                        .addComponent(jButtonCode)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButtonVoltar, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(44, 44, 44))))
@@ -375,7 +387,8 @@ public class MenuMotoristaAlterar extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonAltMotorista)
-                    .addComponent(jButtonVoltar))
+                    .addComponent(jButtonVoltar)
+                    .addComponent(jButtonCode))
                 .addContainerGap(27, Short.MAX_VALUE))
         );
 
@@ -471,7 +484,8 @@ public class MenuMotoristaAlterar extends javax.swing.JFrame {
                     jFormattedTextFieldNumero.setBackground(new java.awt.Color(255, 255, 255));
                     jFormattedTextFieldNumero.setFocusable(true);
                     
-                    jButtonAltMotorista.setEnabled(true);                   
+                    jButtonAltMotorista.setEnabled(true);
+                    jButtonCode.setEnabled(true);   
                     jCheckBoxAtivo.setEnabled(true);
                     
                 try {
@@ -521,6 +535,16 @@ public class MenuMotoristaAlterar extends javax.swing.JFrame {
                     MenuMotoristaAlterar.AltMotorista(A);                    
                     dispose();
     }//GEN-LAST:event_jButtonNovaBuscaActionPerformed
+
+    private void jButtonCodeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCodeActionPerformed
+        String cpf = null;
+        cpf = jFormattedTextFieldCPF.getText();
+        try {
+            GerarCodigo.GerarCodigo(cpf);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(MenuMotoristaAlterar.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jButtonCodeActionPerformed
 
     /**
      * @param args the command line arguments
@@ -593,6 +617,7 @@ public class MenuMotoristaAlterar extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonAltMotorista;
     private javax.swing.JButton jButtonBuscar;
+    private javax.swing.JButton jButtonCode;
     private javax.swing.JButton jButtonNovaBusca;
     private javax.swing.JButton jButtonVoltar;
     private javax.swing.JCheckBox jCheckBoxAtivo;

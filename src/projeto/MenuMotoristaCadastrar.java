@@ -274,6 +274,11 @@ public class MenuMotoristaCadastrar extends javax.swing.JFrame {
         }else telefone = jFormattedTextFieldNumero.getText();
 
         CadastroMotorista.CriaCadastroMotorista(nome, cpf, datanasc, cidade, endereco, tipocarteira,telefone);
+        try {
+            GerarCodigo.GerarCodigo(cpf);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(MenuMotoristaCadastrar.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
         
     }//GEN-LAST:event_jButtonCadMotoristaActionPerformed

@@ -35,11 +35,14 @@ public class MenuTransportesAndamento extends javax.swing.JFrame {
         Connection conexao;
         conexao = DriverManager.getConnection("jdbc:mysql://localhost:3306/gestaofrotas?useTimezone=true&serverTimezone=UTC","javaapp","projeto");
         Statement st = conexao.createStatement();
-        st.executeQuery("Select ID from transportes where TransporteConfirmado ='Y' and TransporteFinalizado = 'N' and TransporteIniciado = 'Y'");
+        st.executeQuery("Select ID, NumeroPedido, DataEntrega from transportes where TransporteConfirmado ='Y' and TransporteFinalizado = 'N' and TransporteIniciado = 'Y'");
         ResultSet rs = st.getResultSet();
         while(rs.next()){
             String Add =rs.getString(1);
-            model.addElement(Add);            
+            String Add2=rs.getString(2);
+            String Add3=rs.getString(3);
+            String Linha = Add+"        "+Add2+"       "+Add3;
+            model.addElement(Linha);            
         }
         jList1.setModel(model);
         
