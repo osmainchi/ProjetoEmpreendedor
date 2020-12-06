@@ -18,8 +18,8 @@ import org.json.simple.parser.ParseException;
 public class CriarDemanda {
     
     public static void CriarDemanda() throws ClassNotFoundException, SQLException, ParseException{
-        String motorista = "93400783064";
-        String IDPedido = "4";
+        String motorista = "02607014085";
+        String IDPedido = "6";
         String IDMotorista = null;
         String Placa = null;
         String NOMEMotorista = null;

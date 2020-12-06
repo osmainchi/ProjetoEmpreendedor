@@ -26,15 +26,23 @@ public class GerarCodigo {
            Random r = new Random();
            int code, low = 100000, max = 999999;
            code = r.nextInt(max-low) +low;
+           String SALTCHARS = "ABCDEFGH";
+           StringBuilder salt = new StringBuilder();
+           Random rnd = new Random();
+           while (salt.length() < 6) { // length of the random string.
+                int index = (int) (rnd.nextFloat() * SALTCHARS.length());
+                salt.append(SALTCHARS.charAt(index));
+        }
+        String saltStr = salt.toString();
            try {
                 Class.forName("com.mysql.cj.jdbc.Driver");
                 Connection conexao;
                 conexao = DriverManager.getConnection("jdbc:mysql://localhost:3306/gestaofrotas?useTimezone=true&serverTimezone=UTC","javaapp","projeto");
                 PreparedStatement atualizar =
                 conexao.prepareStatement("UPDATE motorista SET CodigoCelular = ? WHERE CPF = '"+cpf+"'");
-                atualizar.setInt(1, code);
+                atualizar.setString(1, saltStr);
                 atualizar.executeUpdate();
-                JOptionPane.showMessageDialog(null,"Código "+code+" atualizado com sucesso!",
+                JOptionPane.showMessageDialog(null,"Código "+saltStr+" atualizado com sucesso!",
                     "Atualizado!",JOptionPane.INFORMATION_MESSAGE);
                 
            }catch (SQLException ex) {

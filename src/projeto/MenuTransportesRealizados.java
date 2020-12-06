@@ -13,6 +13,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
@@ -41,7 +43,7 @@ public class MenuTransportesRealizados extends javax.swing.JFrame {
             String Add =rs.getString(1);
             String Add2=rs.getString(2);
             String Add3=rs.getString(3);
-            String Linha = Add+"        "+Add2+"       "+Add3;
+            String Linha = "Identificador: '"+Add+"'        Numero Pedido:"+Add2+"       Data de Entrega:"+Add3;
             model.addElement(Linha);            
         }
         jList1.setModel(model);
@@ -146,9 +148,12 @@ public class MenuTransportesRealizados extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null,"Selecione uma opção",
             "Atenção!",JOptionPane.INFORMATION_MESSAGE);
         }else{        
-        String ID = jList1.getSelectedValue();
+        Matcher matcher = Pattern.compile("[\"'](.+)[\"']").matcher(jList1.getSelectedValue());
+            if (matcher.find()) {
+            String ID = (matcher.group(1));
         MenuTransportesRealizadosDetalhado.Menu(ID);        
         dispose();   
+            }
         }
         
         

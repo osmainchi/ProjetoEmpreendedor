@@ -13,6 +13,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
@@ -41,10 +43,11 @@ public class MenuTransportesAndamento extends javax.swing.JFrame {
             String Add =rs.getString(1);
             String Add2=rs.getString(2);
             String Add3=rs.getString(3);
-            String Linha = Add+"        "+Add2+"       "+Add3;
+            String Linha = "Identificador: '"+Add+"'        Numero do Pedido:"+Add2+"       Data de Entrega:"+Add3;
             model.addElement(Linha);            
         }
         jList1.setModel(model);
+        
         
     }
 
@@ -142,13 +145,17 @@ public class MenuTransportesAndamento extends javax.swing.JFrame {
 
     private void jButtonAndamentoDetalhadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAndamentoDetalhadoActionPerformed
         int index =jList1.getSelectedIndex();
+        String ID = "", List = "";
         if(index < 0){
             JOptionPane.showMessageDialog(null,"Selecione uma opção",
             "Atenção!",JOptionPane.INFORMATION_MESSAGE);
-        }else{        
-        String ID = jList1.getSelectedValue();
-        MenuTransportesAndamentoDetalhado.Menu(ID);        
-        dispose();   
+        }else{  
+            Matcher matcher = Pattern.compile("[\"'](.+)[\"']").matcher(jList1.getSelectedValue());
+            if (matcher.find()) {
+            ID = (matcher.group(1));
+            MenuTransportesAndamentoDetalhado.Menu(ID);        
+            dispose();   
+            }
         }
         
         
